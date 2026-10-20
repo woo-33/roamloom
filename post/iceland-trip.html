@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <style>
+    /* ===== 网页端导航 (正常大小) ===== */
+    @media (min-width: 769px) {
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', 'Yuanti SC', cursive, sans-serif;
+            font-size: 1.3rem;  /* 网页端正常大小 */
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.2s ease;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent-main);
+            background: rgba(163, 177, 138, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Logo 和头像网页端正常大小 */
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .nav-btn {
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* ===== 手机端导航 (紧凑版) ===== */
+    @media (max-width: 768px) {
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        
+        /* Logo 和头像缩小 */
+        .logo img {
+            height: 32px !important;
+        }
+        
+        .nav-avatar {
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        /* 按钮组 */
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            order: 2;
+        }
+        
+        .nav-btn {
+            font-size: 1.1rem !important;
+            width: 36px !important;
+            height: 36px !important;
+        }
+        
+        /* 导航菜单 - 放在第二行 */
+        .nav-menu {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100%;
+            order: 3;
+            margin-top: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav-menu li {
+            margin: 0 !important;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', cursive, sans-serif;
+            font-size: 1rem !important;
+            padding: 6px 15px !important;
+            white-space: nowrap;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            border-radius: 30px;
+        }
+        
+        .nav-menu a:hover {
+            background: var(--accent-main);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero 调整 */
+        .hero {
+            min-height: 250px !important;
+            margin-top: 10px;
+        }
+        
+        .hero p {
+            font-size: 1rem !important;
+            padding: 12px 20px !important;
+            white-space: normal !important;
+            width: 95% !important;
+        }
+    }
+    
+    /* 更小屏幕 */
+    @media (max-width: 480px) {
+        .nav-menu a {
+            font-size: 0.9rem !important;
+            padding: 5px 12px !important;
+        }
+        /* ===== 手机端隐藏左侧目录 ===== */
+    @media (max-width: 768px) {
+        .article-toc {
+            display: none !important;
+        }
+    }
+        
+        .logo img {
+            height: 28px !important;
+        }
+        
+        .nav-avatar {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        
+        .nav-btn {
+            font-size: 1rem !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        .hero {
+            min-height: 220px !important;
+        }
+        
+        .hero p {
+            font-size: 0.9rem !important;
+            padding: 10px 15px !important;
+        }
+    }
+        /* ===== 电脑端：目录和文章并排 ===== */
+@media (min-width: 769px) {
+    .article-layout {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+    }
+    
+    .article-toc {
+        flex: 0 0 240px;
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+    }
+    
+    .article-content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* ===== 手机端：隐藏原有目录，显示浮窗按钮 ===== */
+/* 让所有文章图片自适应手机屏幕 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* 确保文章容器不溢出 */
+.article-content {
+    overflow-x: hidden;
+}
+
+/* ===== 手机浮窗目录样式 ===== */
+.mobile-toc-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3b18a;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-toc-panel {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 260px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 0.8rem;
+    z-index: 1001;
+    display: none;
+    border: 1px solid #e0e0e0;
+}
+
+.mobile-toc-panel.show {
+    display: block;
+}
+
+.mobile-toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+#close-toc-panel {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #666;
+}
+
+#mobile-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#mobile-toc-list li {
+    margin: 0;
+    padding: 0;
+}
+
+#mobile-toc-list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;  /* 减小行高 */
+    transition: color 0.2s;
+}
+
+#mobile-toc-list a:hover {
+    color: #a3b18a;
+}
+
+/* 手机端显示浮窗按钮 */
+@media (max-width: 768px) {
+    .mobile-toc-btn {
+        display: flex;
+    }
+}
+
+</style>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="旅行文章 - 漫游BLOG">
+    <title>文章 - 漫游BLOG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的 Logo 图片 URL -->
+                    <img src="../images/about/logo.jpg"auto=format&fit=crop&w=100&q=80" alt="rOamlOOm Logo" style="height: 40px;">
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../stories.html">Stories</a></li>
+                    <li><a href="../vlog.html">Vlog</a></li>
+                    <li><a href="../sketch.html">Sketch</a></li>
+                    <li><a href="../about.html">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-btn" id="search-toggle" title="搜索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="nav-btn" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的个人头像 URL -->
+                    <img src="../images/about/me.jpeg"auto=format&fit=crop&w=100&q=80" alt="个人头像" class="nav-avatar" title="个人头像">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Article Hero -->
+<section class="article-hero" style="background-image: url('../images/iceland/day6-02.jpg');">
+        <!-- 【替换说明】修改上方 style 中的 background-image URL 为您的文章英雄图片 -->
+        <div class="container">
+            <div class="article-hero-content">
+                <span class="card-tag">冰岛*挪威--追寻--极光*雪--四个女仔北欧十五日两国自由行</span>
+                <h1>游冰岛&挪威</h1>
+                <div class="article-meta">
+                    <span>旅游时间：2017年1月 ｜ 人均费用：20000RMB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="article-body">
+<div class="container-narrow article-layout">
+
+    <!-- 左侧目录 -->
+    <aside class="article-toc">
+    <div class="toc-title">📌 TOUR GUIDE 📌</div>
+        <ul id="toc"></ul>
+    </aside>
+            <div class="article-content">
+            <h2>前言</h2>
+            <p>之前写过一篇意大利和西班牙的游记。我不敢说对其他穷游们有没有帮助，但我最近看回来觉得真的写得很详细，而且对我第二次去是很有帮助的，所以这次北欧之行，我还是想认真地记录下来。</p>
+            <p>旅行四人,只有我和雪是最没有缘分,特意在大冬天去北京也等不到下雪,一回广州立刻下了大暴雪.而且我们都没有选择过很冷的国家去旅行,所以这次大家一致决定要看雪,就一定要去到极致,我们向北极圈出发!!寻找我们的欧若拉!!</p>
+            <h2>去北欧-前期工作很重要，很重要，很重要</h2>
+            <p>(这次前期准备很多,因为在冬天的北欧交通是最麻烦的,所以提早就想好路线,冰岛只有自驾和跟团,因为冬天天气变化太大,冰雪路滑,对于不常开这种天气的司机还是不太建议自驾,所以就只有跟团这个选择了,但旅行社比较多,所以在项目及价格上也斟酌了许久.)</p>
+            <p>1.行程。</p>
+            <p>首先当然决定去的国家，冰岛是我这趟旅程的重要目的地，其余看机票价格和时间安排所决定的。除去冰岛是不能第一站到达的，所以选择第一站的地方挣扎了许久，网上攻略大多去几个国家，但对于我们十五天来说是不可能走得完的，而且其他四国感觉分别不大，也没什么好玩的，所以决定由最近冰岛的挪威出发，争取不浪费更多时间。也由于预留了八天七晚在冰岛的时间（预留那么多天是因为极光是这趟很重要的事，所以预留一定要多，但我们到达冰岛的第二天就看到极光了，而且之后极光指数一直很差。所以之后在雷市时间有点多，但这只是我们幸运，建议去冰岛还是留久一点，相对会更多机会看到极光。）我们在挪威的时间只有前三后四，所以不打算再去另外一个国家了。</p>
+            <p>2.机票。</p>
+            <p>上次进欧洲是在香港飞，回程太辛苦，坐了十多个小时的飞机，还要坐四个小时的车回广州，所以这次决定广州飞，但在广州选择性不大，有些实在太贵，所以决定尝试一下性价比好的俄罗斯航空，俄罗斯一向价格低，但对于战斗民族总有点担心，不过穷游就是要尝试（总结经验，俄罗斯航空如果能给我选择，我是不会再坐了，吃的东西也不好吃，态度也不行，没有酒喝，电视没有中文，想之前卡塔尔航空简直就是升级版了）广州-奥斯陆 4500rmb/人来回</p>
+            <p>飞冰岛自然就选择了挪威航空，包20公斤行李，还有飞机上的Wi-Fi，1168rmb/人来回</p>
+            <p>3.酒店。</p>
+            <p>挪威冰岛的酒店全部都不会立刻扣钱，都是到入住天才扣钱的。1922rmb/人/12夜</p>
+            <p>4.报冰岛团。</p>
+            <p>冰岛团我们是选择Guaid to Iceland，六天团。含两晚南部住宿，追极光，蓝冰洞。预定要先付30%，之后会出一份确认单用于签证，签证不过全退，然后出发前付完尾款。我们就是按照这样的付款方式，最后比一开始一次性付多了每人一千人民币，因为汇率升得太多了。6457rmb/人</p>
+            <p>5.签证。</p>
+            <p>由于冰岛没有独立的领事馆，都是由丹麦领事馆代办。之前意大利是找旅行社代签的，这次因为签证前已经买好机票酒店，所以直接找领事馆签。自己找领事馆签有个麻烦处就是需要提供很多资料，而且全部要自己翻译英文，最后签出来资料竟然全部退回。642rmb/人</p>
+            <p>6.网上购买。</p>
+            <p>保险费130rmb/人，租Wi-Fi 111rmb/人/十四天</p>
+            <p>7.换钱，刷卡。</p>
+            <p>这部分上网找了很久，说法不一。最后实践说明，挪威如果不去太偏的地方是不需要换钱的，大部分都能刷信用卡，因为北欧五国的钱都不一样，汇率也差好远。但要注意，挪威刷卡是要输入四位密码，信用卡没有密码的，直接输入四个0就可以了，朋友信用卡有密码，有时候输入四个0可以，有时候又不行，这就不太清楚了。到冰岛任何地方都能刷信用卡，但每笔要收百分一的手续费。</p>
+            <p>8.交通。</p>
+            <p>在挪威 NSB网上买火车票，冰岛回挪威我们直接去Aurland，提早一个月买Mini pris是最便宜的。Oslo-Myrdal 205rmb/人---Myrdal-Flam观光小火车288rmb/人--Flam-Aurland公交28rmb/人。</p>
+            <p>回程Myrdal-Oslo 247rmb/人（Oslo来回Myrdal之所以那么便宜是因为到达都是凌晨，要在负二十度睡火车站）</p>
+            <p>9.其他。</p>
+            <p>防水袋(用于蓝湖),冲锋衣(冰岛很重要),暖包(我们每人带了三十个,我在aurland基本出门就是十个,其实根本不用那么多,按需即可,我是因为不会带走,所以猛用),帽子(去北欧很重要,太冷了,有时候一层不够,还要外套的帽子才能放风),登山鞋(在去之前一直挣扎要不要买,其实都是需要,我是穿the north face的雪靴,不能太大雨),相机(这也很重要,基本手机一天自动关机很多次,因为太冷了)</p>
+            <h2>正式的来了...GOGOGO～</h2>
+            <h2>第一站：最性冷淡风的首都-奥斯陆</h2>
+            <h3>Day 1 广州--莫斯科--奥斯陆</h3>
+            <p>住宿: Thon Hotel Astoria（松恩酒店）</p>
+            <p>价格:2374rmb/四人/两晚(含早)</p>
+            <p>PS.十分推荐这间酒店,离火车站8分钟路程,而且就在最繁华的Karl Johans gate街旁.最重要的是包早餐!挪威物价真的太贵了,我们这些追求性价比的穷游们是不会随便浪费钱去吃一些我们觉得不值得的事情上去.例如我们不会用200rmb吃个三明治,而且这家早餐实在太丰富了.</p>
+            <img src="../images/iceland/day1-01.jpg" alt="冰岛挪威" width="800">
+            <p>这是奥斯陆机场到中央车站的nsb火车票93nok/人,车程24分钟,除了nsb还有另外一种是机场快线,130nok/人,车程18分钟,两种都是出到到达口右转,中央看到有个服务台,在柜台内的机器是买快线的,在隔壁单独机器是买nsb的.我是买nsb的,在4号口乘车.准点24分到达车站,直奔酒店.</p>
+            <img src="../images/iceland/day1-02.jpg" alt="冰岛挪威" width="800">
+            <p>阿克斯胡斯城堡</p>
+            <img src="../images/iceland/day1-03.jpg" alt="冰岛挪威" width="800">
+            <p>阿克斯胡斯城堡</p>
+            <img src="../images/iceland/day1-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day1-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day1-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day1-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day1-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day1-09.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 2 奥斯陆</h3>
+            <p>这一天天气都十分差,阴天而且温度一直都在零下.奥斯陆大概找了些景点,不算精彩,但有雕塑公园,有蒙克博物馆,对于我这个美术生来说还是应该去看看的.不过这些都只是计划.</p>
+            <p>酒店出来,决定先去附近的城堡看一下,因为上次西班牙的城堡确实惊验到我们了,所以第一站阿克什胡斯城堡 (Akershus Festning),我们发挥我们缓慢精神,短短的15分钟路程我们用了一个半小时到达城堡门口.</p>
+            <p>城堡很冷清,基本没有什么人,但对于我们连小面积雪都能玩一天的人,这个地方停留了三个多小时.之后开始找东西吃了,普遍周围餐厅都太贵了,最后只能选择全球除了冰岛没有的麦当劳解决.一个鸡腿汉堡套餐100rmb,四个人其实吃两个套餐就可以了.</p>
+            <p>还有一点,奥斯陆的厕所分两种,一种付钱大概8rmb/次,另一种就是商店,餐厅的,但大门都需要密码的,只要问店员密码就可以了,我们每次要借厕所都是扮顾客直接问,用完直接走的.</p>
+            <img src="../images/iceland/day2-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day2-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day2-03.jpg" alt="冰岛挪威" width="800">
+            <p>吃饱饱终于要去维格兰雕塑公园(Vigeland Sculpture Park),路程中走走停停,我们竟然在下午五点多才到公园的边边,发现一堆积雪,兴奋到跑去玩起来,转弯竟然看到还有一个滑冰场,这里请脑补,一个嬉闹的滑冰场,有大人小孩,旁边有一堆积雪,里面只有我们四人吵吵闹闹,我猜滑冰场里面的人一定都很迷惑为什么玩得那么high.堆完雪人都已经天黑了,我们放弃了我们本来主要目的的公园,打道回府找吃的.走到KarlJohans gate街看到有一家外卖pizza打包只要80rmb,开始还想会不会不够吃,后来就知道决定是对的,最后我们还没能吃完,</p>
+            <p>(感觉挪威的三文鱼都是腌制过的,都很咸.....)</p>
+            <img src="../images/iceland/day2-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day2-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day2-06.jpg" alt="冰岛挪威" width="800">
+            <h2>第二站：属于彩色屋子的首都-雷克雅未克</h2>
+            <h3>Day 3 奥斯陆--雷克雅未克</h3>
+            <p>奥斯陆机场真的很方便,自己打机票,行李票,自己拖运行李.奥斯陆这个城市我觉得是很含蓄的浪漫,我在奥斯陆的每个晚上都会飘雪,而且我一点都不觉得挪威人冷酷,他们只是慢热一点,</p>
+            <p>在飞机上度过了十分充实的两个小时,因为景色实在太美了,无论在奥斯陆上空还是飞行过程中.奥斯陆上空给人的感觉真的很性冷淡,都是黑黑白白,但去到中断,开始看到有雪山的顶,后来是一整片,真的就像在月球上空,立刻查了一下地图,原来是我们冰岛回来的松恩海峡的上空,真的很震撼!</p>
+            <p>住宿:Hverfisgata Apartment（海维费斯格塔公寓酒店）</p>
+            <p>价格:1169rmb/四人/一晚</p>
+            <p>PS:房东是一个人很好的伯伯,喜欢穿浴袍,不爱笑,哈哈,房间也很大,有厨房(很重要!!)</p>
+            <img src="../images/iceland/day3-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day3-07.jpg" alt="冰岛挪威" width="800">
+            <p>哈尔格林姆教堂</p>
+            <p>冰岛给我的第一感觉是很大风!虽然当地只有四度左右,但感觉和奥斯陆差不多.我们预定的冰岛团都算自由旅行,因为前后都是电子票,只有中间的三日两晚是跟导游的.所以团费全付完,旅行社会发电子票到你邮箱,你只要打印好或者保存手机上就可以了.</p>
+            <p>下飞机,去到门口右侧flybus柜台给他换实体票,只要告诉他你的目的地是哪里就可以了,然后到外面坐车.车程大概一个多小时吧,会到达雷克雅未克 flybus的中转站,再换车进市区.</p>
+            <p>拿好房间就准备出发逛逛了,突然不习惯街上那么多中国人,因为在奥斯陆很少会看到中国人,首先是大部分人都会去的“粉红猪”超市,因为在奥斯陆我们根本找不到一间超市.“粉红猪”是公认物价相比其他是最便宜的,我们去到发现,真的很便宜!当然不能和国内相比,但和奥斯陆相比真的便宜好多!虽然之后听一些团友说冰岛物价很高,比英国高很多,我们完全不觉得,因为他们没有试过去挪威,5555~</p>
+            <p>购物完成,立刻出发雷克雅未克著名的风琴教堂,可惜我们到的时间过了五点登不了顶.而且冰岛五点左右就天黑了,而且很冷,我们就回酒店了.</p>
+            <p>在“粉红猪”我们看到有黑色的橡皮糖觉得很好玩,买回来吃竟然是甘草味,味道太难接受了!想不到我买的手信只要图片是有一点点的黑色都是这甘草味....我真的无语....</p>
+            <h2>第三站：冰岛黄金旅游圈&amp;极光小镇</h2>
+            <h3>Day 4 雷克雅未克--维克小镇</h3>
+            <p>今天开始三天导游团,雷市日出在10点左右,我们九点半在酒店门口等车过来接我们,等车过程中与一同等车的台湾人聊了起来,说他们昨晚看到极光了!而且昨晚指数有5!我们还很后悔昨晚没有出去走走....他们还介绍了一个看冰岛天气,极光指数的网站给我.然后和我们分享了很多他们这几天跟团的事.</p>
+            <p>一车团友大概十多个吧,导游是一个喜欢瀑布的人(后面就知道,我们为什么知道)导游一开始就说今天指数不差,但还是要看今晚天气才知道能不能看到极光.</p>
+            <p>住宿:维克小镇</p>
+            <p>价格:团费已包含</p>
+            <img src="../images/iceland/day4-01.jpg" alt="冰岛挪威" width="800">
+            <p>跟团最不好就是有些地方很漂亮,但你只可以去别人安排的地方....我推荐第一次来冰岛是应该要跟团,但我下次再来是绝对不会再跟团了,我们都是随见随玩,被人控制着就会很不自在.而且危险.</p>
+            <p>我们跟团去的第一个地方是辛格韦德利国家公园(Þingvellir National Park),看一个并不怎么好看的瀑布,走着超滑的路,就算timberland也滑倒了,就在大家都去厕所的时间里,我们到处拍拍玩玩,完全没留意导游说过要在厕所那边上车,导致我们在下车位置看到一部部车来了又走,天气越来越暗,又下雨而且很大风很冷,我们十分无助,就去问其他公司的导游叫他帮我们联系我们的导游,最后旅游车全都走了,只剩下我们四人在露天等着,等了半个小时,看到我们的车回来,我们才放下了心,一上车就和车上的人道歉了....</p>
+            <p>所以之后都不敢随便玩,下车前都问清楚导游集合时间和地点.....</p>
+            <img src="../images/iceland/day4-02.jpg" alt="冰岛挪威" width="800">
+            <p>辛格维勒国家公园</p>
+            <img src="../images/iceland/day4-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-09.jpg" alt="冰岛挪威" width="800">
+            <p>这天的行程主要都是黄金旅游圈(Golden Circle Route)的线路,辛格维利尔国家公园(Þingvellir)--大间歇泉(Great Geysir)--黄金瀑布(Gullfoss)--塞里雅兰瀑布(Seljalandsfoss)--斯科加瀑布(Skógafoss),一天看了四个瀑布,想想我也是醉了,就是不明白为什么导游永远带我们去最经典的地方永远是在傍晚,天暗到不行,大风,冷到根本不想下车,今天是彩虹瀑布,在天快黑的时候才到,根本没走过去瀑布,只是下车拍了几张照片就立刻上车了.</p>
+            <h3>插播追极光报道～</h3>
+            <p>我想重点说一下的追极光.</p>
+            <p>导游车在晚上七点左右送到我们到南部的某一间酒店,下车就已经是下雨了,导游也提醒我们今晚天气有点差,不一定看得到极光,说本来九点集中一齐出去追极光的,但是....雨一直下,根本没停的意思,导游就取消了追极光的行程,说晚一点如果看到满天星星,就可以去酒店附近暗一点的地方看看有没有极光.</p>
+            <p>因为极光指数在今天过后指数只有3,而且云层很厚,要看极光的机会太低了,至少今晚指数在4,无论如何今晚是等几个小时也要等的.所以我们九点多,十点就睡了,因为指数预测大概一点多云层就会少点,所以闹钟调到一点半...</p>
+            <p>闹钟响了,打开窗,cao......下大雪........没望了....但不死心,继续看指数,大概三点天气会好了,闹钟继续两点半.....</p>
+            <p>闹钟又响了,打开窗,终于没下雪,而且满天星!立刻刷牙换衣服!在刷牙的时候,朋友问我那是不是极光,我跑去窗边,兴奋得不得了,说是!!立刻拍隔壁房另外两个人.</p>
+            <p>光速般的速度,将带过来的衣服全穿上了,走出去,好大风!不过看到极光的心情已经盖过所有!而且还是一个大弧形,在大风的户外,因为太冷,单反都有点坏掉了,拍起来总有些模糊,之后有两个香港人是我们的团友,她们忘记带三脚架了,所以拍不了,我们就让三脚架给他们相机拍....我知道与极光的合照是很好笑,不过真的很有回忆.....因为没有其他了.....我们没有车所以不能去到远的地方去拍那条弧线...只能偷别人拍的了.</p>
+            <p>该拍都拍了,兴奋都兴奋了,但气温实在太冷,风实在太大,我们看得有点麻木,,就回酒店休息了....之后我们说起,原来我们四人,有三人在刚睡觉的时候就梦到一掀窗帘就看到极光,真的太巧了....</p>
+            <p>躺在床上一直都睡不着,凌晨3点,偶尔听到楼下有阵喧哗.最后忍不住还是开窗看了......</p>
+            <p>真的太美了,这次是跳动的极光!而且就在窗前很活跃得在跳,之前的都是一束光而已!现在还在窗外,享受着暖气不用忍受超大风,手机永远开不了机的状态.后来看了一段时间,决定还是要拍个大片,又换回衣服冲下去,这次的位置与之前的位置不同,现在的位置大风到能快将我吹倒,三角架扶着都在摇,根本拍不了.....但这景是永生难忘,整个天空都是极光在跳动....后面突然传来同伴的张学友似的抖音歌声在唱“ 北极光”虽然很好笑,但莫名有点适合......</p>
+            <p>这样来来回回,这躺极光连续出现了三个多小时,这是很少出现的,通常都是十多分钟...我们兴奋到根本不用睡了....直接通宵看日出.....</p>
+            <img src="../images/iceland/day4-10.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-11.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-12.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-13.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day4-14.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 5 维克小镇</h3>
+            <p>继续三日团的第二天,今天天气还可以,但冰岛天气变化十分快,时雨时晴的.</p>
+            <p>住宿:维克小镇</p>
+            <p>价格:团费已包含</p>
+            <p>准点八点半出发,期待这天的蓝冰洞!一开始出发到一个十分美的地方,我不知道这个地方叫啥名字,但由于昨天的大雪,使这里美得一踏糊涂,而且这里看日出是一望无际的,雪地也是一片无尽头.</p>
+            <p>第二站看冰岛特色短腿马...</p>
+            <p>之后导游告诉我们本来今天要去蓝冰洞,由于最近常下雨,导致冰洞灌水不能进去了,,,我计划了那么久的事竟然最后不能去...很伤心,不过也没有办法,之后导游改换行程去了一个地方,,,这个地方我真的心骂了N多遍!在阳光最好的中午,我们竟然爬了一个多小时的山去看那小小的瀑布,,,,我真的无语了,我们四人根本都没走到瀑布那边就放弃了,所以请原谅我,我根本不知道那叫什么瀑布,根本不明白为什么导游那么喜欢看瀑布,,,</p>
+            <p>之后还去了斯卡夫塔山国家公园(Skaftafell)就是看看明天我们要徒步的冰川远景.</p>
+            <img src="../images/iceland/day5-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day5-07.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 6 维克小镇--雷克雅未克</h3>
+            <p>昨晚一直下雨,看指数根本都没有一点机会看极光,所以早早就睡了.</p>
+            <p>一早起床,又是下雨....注定今天是在狼狈中度过的一天.</p>
+            <p>住宿:雷克雅未克</p>
+            <p>住宿:Hverfisgata Apartment（海维费斯格塔公寓酒店）</p>
+            <p>价格:4144rmb/四人/四晚</p>
+            <p>今天的重点徒步冰川瓦特纳冰原(Vatnajökull),去到是无尽的雨和大风.在设备站换了冰爪,带了装备出发,,但整个过程中都是狼狈的,因为又下雨又大风又冷,,只能在大冰川里迎面迎接那冰冰的雨,,全身都是湿的,鞋也有点进水了,,我根本没有什么心情去想像“星际穿越”电影带给我种种类似感,,只想快快走完就好了....但快走完的时候却出现了太阳,,彩虹也看到几次了,,稍微能平复一下天气不好影响的心情.</p>
+            <p>徒步完大冰川,我们好好整理一下才觉得没有那么狼狈的时候,到达黑沙滩(Reynisfjara),到达黑沙滩是天气最坏的时候,大雨大风到整个小巴都能吹摇,,而且看到的雨都是打横飞的,,我不想稍微干点的衣服又湿,,所以就没下车,其他三个同伴们都下去了,,有一个下去海滩边拍了几张就立刻以光速跑回车上...</p>
+            <p>经历了今天种种,十分讨厌跟团的种种时间点...连我们期待的冰湖又是在傍晚的时间到,,阴天,,光线暗,,而且超冷,,导游在千年冰河湖(Fjallsárlón Glacier Lagoon)放下我们,,说在冰湖那边集合,,但那个路程未免太远,天气好点都能拍拍走走,但真的太冷,只能又跑回车上....</p>
+            <p>今天都艰难的度过,但老实说今天所看到都是很美的,很震撼的,只是天气太坏导致不能好好欣赏....</p>
+            <p>去完冰湖,大概还要坐三个多小时的车才回到雷市,到市区都八点多了,,简单吃点东西就睡了...</p>
+            <img src="../images/iceland/day6-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-09.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-10.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-11.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-12.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-13.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-14.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day6-15.jpg" alt="冰岛挪威" width="800">
+            <h2>第四站：冰火两重天的—蓝湖</h2>
+            <h3>Day 7 雷克雅未克</h3>
+            <p>回到雷市，终于感觉到旅程是自己的，因为想去哪吃哪走哪都能自己选择。</p>
+            <p>今天重点--蓝湖！团里已经帮我们预定了下午四点的门票，如果自己预定要提早很多才能预定得到下午的票，因为这时间是最好的，能有白天和有机会晚上看到极光（昨天听团友们说在蓝湖看到极光了）。一早就听说冰岛的热狗十分出名，克林顿也吃过，我们当然不会错过这次机会，准点十点半出发（因为才刚天亮），可能是因为早上，所以根本不用排队就能吃上了，但我们隔天下午过来足足排了一个多小时！热狗是好吃，比冰岛大部分的东西都好吃太多了。然后就是慢慢地逛了一下主街道，看看涂鸦。</p>
+            <p>下午两点半准时要在指定地方等车来接到flybus的中转站，用电子票在柜台换票再上车。记得在去的路上要想好什么时候离开，不然要浪费时间在等车。</p>
+            <p>大概一个小时到达蓝湖，蓝湖就像一个独立的工厂，冒着烟，周围充斥着硫磺味。</p>
+            <p>在门口会有人告诉你整个流程，就是先每人给一个手环用于一切的储存和消费，最后以手环结账。</p>
+            <p>我在来的时候就想要租毛巾和拖鞋，但看到更衣室的一片凌乱，就决定什么都不租，因为随手拿太方便了，而且我觉得就算租了作用也不大，因为去到湖边都是随手放的，你再拿的时候肯定是别人用过的，所以我觉得是没有什么必要去租。</p>
+            <p>换好泳衣，出去那一刻，cao……真的太冷了，2度穿泳衣！不顾一切脱掉浴袍冲向湖里，缓一下才能平复。但竟然下起了冰雹……看到有些人躲到小桥下，有些人根本都不管了。我们就冲向拿面膜的地方，放面膜的地方就像个亭，有瓦遮冰雹，免费面膜是清洁功效，我不敢涂太多怕太干了。</p>
+            <p>我们渡过了一个十分美的下午，水温适中，天气虽然开始下冰雹，但之后天气好到不行。终于能好好地弥补前几天的疲劳感。而且在世界尽头感受着冰火两重天的温泉，喝着smoothie看着天空，这感觉实在太棒了！可惜当天看到月亮，所以根本不可能出现极光了。</p>
+            <p>我们打算坐九点的车回去，但一开始不知道原来有不同的巴士公司，排好队上车才说不是他们公司，我们就很害怕会错过这趟车或太多人没位子了，一路寻找幸好能赶上，不过我们后面有个外国女人就因为没有位子而大骂司机。不过也是，因为晚上温度去到零下了。所以提早去等车，看清大巴上公司logo对号上车就可以了。</p>
+            <p>泡完温泉当晚十分好睡，我是一来北欧时差就一直没能调整过来，那天竟然睡了十个小时！</p>
+            <img src="../images/iceland/day7-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day7-08.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 8 雷克雅未克</h3>
+            <p>今天没有安排什么，就是想看看太阳航海者(Sólfar)，就向着海边出发。海边吸引我们其实不是航海者，而是哈帕音乐厅和会议中心（Harpa Conference &amp; Concert Center），因为在昨天晚上就看到它灯光与玻璃</p>
+            <p>结合所出来的效果，立刻奔向。里面光影效果做得不错，采光及设计都十分好！</p>
+            <p>逛了两个多小时，就回去主街看小商铺。虽然冰岛也是北欧，但在小商店买丹麦或瑞典的牌子并没有特别便宜，其实和HK也差不多，所以很多都没有下手。但在一家卖冰岛手工产品的店里，发现一个手工做的绵羊声音制造机，特别好玩，特别是几个一齐摇，出来效果层次丰富，特别好笑！在冰岛这算比较精喜的产品了。</p>
+            <p>今天最令人激动就是在特约宁湖(Tjörnin)看到了最美的日落，日落层次很多,而且湖面一半结冰,鸳鸯和天鹅实在太多,而且还有群鸟,是我看过最美的日落之一.</p>
+            <img src="../images/iceland/day8-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day8-07.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 9 雷克雅未克</h3>
+            <p>停留雷市时间确实多了一天，也因为极光指数一直低，导致在雷市没有任何的吸引力。</p>
+            <p>所以尝试了冰岛特色的面包汤,老实说真的不太好吃,而且价格都快两百rmb一个包,而且很咸.....所以晚上我们的大厨立刻动手.这趟冰岛之旅,虽辛苦,但我们磨练了我们的好大厨的手艺有丰富的自制汉堡早餐,也是一个不错的经验,哈哈哈....</p>
+            <img src="../images/iceland/day9-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day9-09.jpg" alt="冰岛挪威" width="800">
+            <h2>第五站：挪威最童话的小镇-Aurland</h2>
+            <h3>Day 10 - Day 11。雷克雅未克--奥斯陆--米达尔（Myrdal）--Flam--Aurland</h3>
+            <p>住宿:Vangsgaarden Gjestgiveri（文斯格蒂宅斯特盖乐瑞酒店）</p>
+            <p>价格:1656rmb/两晚/四人</p>
+            <p>(店主很好人,我们本来订了三晚的酒店,想取消一晚,店主无问原因就帮我们取消了,实在太好人了!)</p>
+            <p>其实大部分人来奥斯陆通常都会去卑尔根，我其实也有这个打算，但我找过资料说那里常下雨而且火车要七个小时，我不太想那么辛苦去个地方而天气不好的，当我找到挪威经典的海峡线路，我看到了这个艺术Aurland小镇，大部分人都是在观看松恩海峡经典线路坐船而拍下这个美丽的小镇，但我却对这个小镇出现了好奇，找到了更多这地方的资料，它是冰川裂变形成的峡谷，很原始。立刻就下定决心这趟旅程最后要去的就是这里。虽然资料不多，但至少知道是怎么去了，但万万没想到过程比想象中辛苦太多。</p>
+            <p>这一天注定是无比的漫长，因为去Aurland没有直达火车的，我们需要在奥斯陆火车站坐火车去到Myrdal，再从Mydal坐高山小火车去Flam，去到Flam再坐公交去Aurland。</p>
+            <p>在奥斯陆火车站等了五个小时终于坐上去Myrdal的火车，车上人不多，都是直接打横睡着，到达Myrdal火车站凌晨四点半，温度-20，突然不能接受这温度，我们简直是冲着进去火车站休息室的，幸好休息室没有人，有暖气，而且有长凳，一看就是给我们这些坐通宵车的人睡觉用的，休息室还有一个自动贩卖机，因为太冷想喝点东西暖暖身，因为看不懂挪威文所以每人点不同的，怀着兴奋的心情，出来的竟然是热巧克力24rmb，美式咖啡24rmb，和冲淡了的即食面的汤20rmb，最过分的写着柠檬水的，出来是白开水20rmb....实在太坑了。</p>
+            <p>去Flam的火车要早上十点才到，到九点多的时候突然多人起来，准时十点火车到。Myrdal去Flam的小火车是经典游里面的一个景点部分，所以票价特别贵，提早网上买和上车买是同价，单价288rmb/人，车程50分钟，但也只有这条路能到Flam，火车上会有语音说明这条路海拔，位置。虽说贵，但景色确实太美，因为在高山上，常年冰天雪地，所以景色在其他地方是真的看不到，整条瀑布都给冰封了，而且雪上特别壮观，修这条公路也十分艰难，因为大部分都是在悬崖边而建的。</p>
+            <p>到达Flam火车站，如果去卑尔根或参观松恩海峡经典线就在火车站旁坐船，我们是在火车站旁的公交车站等公交，但竟然四十五分钟后才有车，因为公交时刻表是挪威文，我们担心有误解所以原地在车站等，其实已经快中午了，但温度一直在-4度左右，有太阳都觉得十分冷。巴士准时到达，26rmb/人，十分钟车程。</p>
+            <p>其实到达这一刻我们都很累了，我也有点后悔这地方是否值得我们这么艰辛地跑来。当巴士开出了Aurland隧道，我们看见了这一片五颜六色的房子和超大的峡湾，我们就知道我们这次来是值得的。而且我们旅馆是在海湾边的一个联排别墅，每天都能看着海湾吃饭，而且还有露台,给我们拍照,哈哈哈哈。</p>
+            <img src="../images/iceland/day10-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-09.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-10.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-11.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-12.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-13.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day10-14.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 12 Aurland 艾于兰</h3>
+            <p>住宿:Vangsgaarden Gjestgiveri（文斯格蒂宅斯特盖乐瑞酒店）</p>
+            <p>在奥斯陆一直找不到超市,而且酒店没有厨房,所以一直忍受着贵物价.来到Aurland在酒店附近就有一家超市,我们酒店是独栋小木屋,环境十分好!所以当然自己开火,而且在Aurland好像没看见有餐馆.</p>
+            <p>每天早上都看着峡湾吃着丰盛的早餐,真是一大享受,晚上回来就买一些虾做虾汤煮面吃.</p>
+            <p>Aurland实在太冷了,有太阳都在零度以下,而且这地方太奇怪,我们观察了两天,这地方永远太阳是照不进来,可能是因为雪山都挡了光线,这小镇地理环境就是大雪山包围着的小镇,很美,很宁静...</p>
+            <p>而且海湾的水真的太干净,海草海星随处可见,而且清澈见底,,这完全就是一个与世隔绝,很适合发呆的好地方...就是冬天来太冷了,每天顶着十个暖包出去,出去两个多小时就已经感觉自己冻僵了,就跑回酒店好好呆着了.....</p>
+            <img src="../images/iceland/day12-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-09.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day12-10.jpg" alt="冰岛挪威" width="800">
+            <h3>Day 13--Day 15 Aurland 艾于兰---奥斯陆--广州</h3>
+            <p>住宿: Thon Hotel Astoria（松恩酒店）</p>
+            <p>价格:952/rmb/四人/一晚(含早)</p>
+            <p>我们在国内就自备了吹泡泡机,为的就是拍照,哈哈哈....最后一点地方当然不能错过...不过这里温度太低了,吹出来的泡泡水没过几分钟就结冰了,根本吹不出泡泡....但我却看到网络上摄影师拍的泡泡结冰成雾化再破裂的过程....可惜拍不到....不然一定很美...</p>
+            <p>其实Aurland离Voss很近,对,就是水的那个Voss,但我们没有去,因为拖着行李而且太冷了.</p>
+            <p>Aurland这里地方我觉得在夏天来一定很好玩,可以游泳玩水,还有湾边不同位置放了烧烤炉,看着这里的风景烧着烤太写意了......</p>
+            <p>我们买Myrdal去奥斯陆是第二天凌晨的火车票,当时因为贪图便宜,但是后来认真想了通宵火车站后,还要坐十多个小时飞机,最重要是不能洗澡,所以甘愿冒险.大不了是上车补钱,也查了早一段时间的价格是我们买的三倍,如果是这样我们就按回原来时间上车,穷游伤不起,因为实在太贵.....</p>
+            <p>我们在Myrdal火车站等车,遇到了我们亲身感受最大雪的一次(车上看大雪就有几次),虽然也不是很大,但我们也玩得很开心,哈哈哈哈哈.....等了大概二,三个小时吧,车准备来了,我们四人分三个位置打算拦截车长问他能不能上车,一个留下看行李.....车长说可以,我们四人简直兴奋到不行,立刻拖行李上车...</p>
+            <p>车长最好的地方在于我们不用多付钱之余,他还会安排位置给我们.....</p>
+            <p>在车程中,我们发现很多外国人都拿着滑雪工具,每站都总有人拿着工具下车....最后我们在Geilo这地方看到一个很大的滑雪场,而且周围环境都很好....这应该是挪威人自己的滑雪胜地....有机会一定要过来!</p>
+            <p>回到奥斯陆晚上十点多,立刻洗洗就睡了,准备明天十多个小时的飞机回广州.</p>
+            <img src="../images/iceland/day13-01.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-02.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-03.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-04.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-05.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-06.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-07.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-08.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-09.jpg" alt="冰岛挪威" width="800">
+            <img src="../images/iceland/day13-10.jpg" alt="冰岛挪威" width="800">
+            <h2>看了一部综艺，更新一下的感想</h2>
+            <p>距离上次去冰岛已经是2年前的事了，突然最近有部综艺《小小的追球》引起我重回看自己写的这篇游记的感想。</p>
+            <p>当初去北极圈寻找北极光只是觉得美，现在回想美之余作为我们人类确实做了太多伤害地球的事。我们虽然离北极圈距离比较远，暂时感受不了这些破坏对我们自身的影响，但与此同时在北极圈附近的地方，都是直接感受到危机的。我们想远一点，做多一点。</p>
+            <p>我们能去看一看世界，但请时刻保持着一颗感恩地球的心。注意保护环境，从自身做起。这样我们才能看到更多不一样的地球，也才能真正领悟旅行的意义。</p>
+
+            <!-- Share -->
+            <div style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">分享这个故事</p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+ <!-- Comments Section -->
+    <section class="article-body comments-section">
+        <h2 class="comments-title">
+            评论
+            <span class="comment-count" id="comment-count">0</span>
+        </h2>
+
+        <!-- Comment Form -->
+        <div class="comment-form-wrapper">
+            <h3 class="comment-form-title">发表评论</h3>
+            <form id="comment-form">
+                <div class="comment-form-row">
+                    <div class="comment-form-group">
+                        <label for="comment-name">姓名 *</label>
+                        <input type="text" id="comment-name" name="name" required placeholder="请输入你的姓名">
+                    </div>
+                    <div class="comment-form-group">
+                        <label for="comment-email">邮箱 *</label>
+                        <input type="email" id="comment-email" name="email" required placeholder="请输入你的邮箱">
+                    </div>
+                </div>
+                <div class="comment-form-group">
+                    <label for="comment-content">评论内容 *</label>
+                    <textarea id="comment-content" name="content" required placeholder="分享你的想法和建议..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit-comment">发表评论</button>
+            </form>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="comments-list">
+            <div class="comments-empty">
+                <div class="comments-empty-icon">💬</div>
+                <p>暂无评论，成为第一个评论者吧！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 rOamlOOm 漫游BLOG. 保留所有权利。</p>
+        </div>
+    </footer>
+
+            <!-- 手机端浮窗目录按钮 -->
+    <button class="mobile-toc-btn" id="mobile-toc-btn">
+        📖 目录
+    </button>
+
+    <!-- 手机端浮窗目录面板 -->
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+        <div class="mobile-toc-header">
+            <span>📌 目录</span>
+            <button id="close-toc-panel">✕</button>
+        </div>
+        <ul id="mobile-toc-list"></ul>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+<script>
+// 第一步：为所有 h2 添加 id
+const headings = document.querySelectorAll('.article-content h2');
+headings.forEach((h2, index) => {
+    if (!h2.id) {
+        h2.id = 'section-' + index;
+    }
+});
+
+// 第二步：生成电脑端目录
+const toc = document.getElementById('toc');
+if (toc) {
+    const h2s = document.querySelectorAll('.article-content h2');
+    h2s.forEach(h2 => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = h2.textContent;
+        a.href = '#' + h2.id;
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+}
+
+// 第三步：手机端浮窗目录功能
+(function() {
+    // 生成手机端目录列表
+    const mobileTocList = document.getElementById('mobile-toc-list');
+    if (mobileTocList) {
+        const h2s = document.querySelectorAll('.article-content h2');
+        h2s.forEach(h2 => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.textContent = h2.textContent;
+            a.href = '#' + h2.id;
+            li.appendChild(a);
+            mobileTocList.appendChild(li);
+        });
+    }
+    
+    // 打开/关闭浮窗目录
+    const tocBtn = document.getElementById('mobile-toc-btn');
+    const tocPanel = document.getElementById('mobile-toc-panel');
+    const closeBtn = document.getElementById('close-toc-panel');
+    
+    if (tocBtn && tocPanel) {
+        tocBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tocPanel.classList.toggle('show');
+            console.log('按钮被点击了');  // 调试用
+        });
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                tocPanel.classList.remove('show');
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (tocPanel && tocBtn) {
+                if (!tocPanel.contains(e.target) && !tocBtn.contains(e.target)) {
+                    tocPanel.classList.remove('show');
+                }
+            }
+        });
+    } else {
+        console.log('未找到按钮或面板元素');
+    }
+})();
+</script>
+    
+</body>
+</html>
