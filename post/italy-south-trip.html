@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <style>
+    /* ===== 网页端导航 (正常大小) ===== */
+    @media (min-width: 769px) {
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', 'Yuanti SC', cursive, sans-serif;
+            font-size: 1.3rem;  /* 网页端正常大小 */
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.2s ease;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent-main);
+            background: rgba(163, 177, 138, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Logo 和头像网页端正常大小 */
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .nav-btn {
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* ===== 手机端导航 (紧凑版) ===== */
+    @media (max-width: 768px) {
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        
+        /* Logo 和头像缩小 */
+        .logo img {
+            height: 32px !important;
+        }
+        
+        .nav-avatar {
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        /* 按钮组 */
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            order: 2;
+        }
+        
+        .nav-btn {
+            font-size: 1.1rem !important;
+            width: 36px !important;
+            height: 36px !important;
+        }
+        
+        /* 导航菜单 - 放在第二行 */
+        .nav-menu {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100%;
+            order: 3;
+            margin-top: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav-menu li {
+            margin: 0 !important;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', cursive, sans-serif;
+            font-size: 1rem !important;
+            padding: 6px 15px !important;
+            white-space: nowrap;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            border-radius: 30px;
+        }
+        
+        .nav-menu a:hover {
+            background: var(--accent-main);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero 调整 */
+        .hero {
+            min-height: 250px !important;
+            margin-top: 10px;
+        }
+        
+        .hero p {
+            font-size: 1rem !important;
+            padding: 12px 20px !important;
+            white-space: normal !important;
+            width: 95% !important;
+        }
+    }
+    
+    /* 更小屏幕 */
+    @media (max-width: 480px) {
+        .nav-menu a {
+            font-size: 0.9rem !important;
+            padding: 5px 12px !important;
+        }
+        /* ===== 手机端隐藏左侧目录 ===== */
+    @media (max-width: 768px) {
+        .article-toc {
+            display: none !important;
+        }
+    }
+        
+        .logo img {
+            height: 28px !important;
+        }
+        
+        .nav-avatar {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        
+        .nav-btn {
+            font-size: 1rem !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        .hero {
+            min-height: 220px !important;
+        }
+        
+        .hero p {
+            font-size: 0.9rem !important;
+            padding: 10px 15px !important;
+        }
+    }
+        /* ===== 电脑端：目录和文章并排 ===== */
+@media (min-width: 769px) {
+    .article-layout {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+    }
+    
+    .article-toc {
+        flex: 0 0 240px;
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+    }
+    
+    .article-content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* ===== 手机端：隐藏原有目录，显示浮窗按钮 ===== */
+/* 让所有文章图片自适应手机屏幕 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* 确保文章容器不溢出 */
+.article-content {
+    overflow-x: hidden;
+}
+
+/* ===== 手机浮窗目录样式 ===== */
+.mobile-toc-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3b18a;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-toc-panel {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 260px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 0.8rem;
+    z-index: 1001;
+    display: none;
+    border: 1px solid #e0e0e0;
+}
+
+.mobile-toc-panel.show {
+    display: block;
+}
+
+.mobile-toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+#close-toc-panel {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #666;
+}
+
+#mobile-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#mobile-toc-list li {
+    margin: 0;
+    padding: 0;
+}
+
+#mobile-toc-list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;  /* 减小行高 */
+    transition: color 0.2s;
+}
+
+#mobile-toc-list a:hover {
+    color: #a3b18a;
+}
+
+/* 手机端显示浮窗按钮 */
+@media (max-width: 768px) {
+    .mobile-toc-btn {
+        display: flex;
+    }
+}
+
+</style>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="旅行文章 - 漫游BLOG">
+    <title>文章 - 漫游BLOG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的 Logo 图片 URL -->
+                    <img src="../images/about/logo.jpg"auto=format&fit=crop&w=100&q=80" alt="rOamlOOm Logo" style="height: 40px;">
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../stories.html">Stories</a></li>
+                    <li><a href="../vlog.html">Vlog</a></li>
+                    <li><a href="../sketch.html">Sketch</a></li>
+                    <li><a href="../about.html">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-btn" id="search-toggle" title="搜索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="nav-btn" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的个人头像 URL -->
+                    <img src="../images/about/me.jpeg"auto=format&fit=crop&w=100&q=80" alt="个人头像" class="nav-avatar" title="个人头像">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Article Hero -->
+<section class="article-hero" style="background-image: url('../images/italy-south/matera-17.jpg');">
+        <!-- 【替换说明】修改上方 style 中的 background-image URL 为您的文章英雄图片 -->
+        <div class="container">
+            <div class="article-hero-content">
+                <span class="card-tag">出发意大利南部～四个女仔疫境下的囧途十日游</span>
+                <h1>游意大利南部</h1>
+                <div class="article-meta">
+                    <span>旅游时间：2020年1月 ｜ 人均费用：11000RMB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="article-body">
+<div class="container-narrow article-layout">
+
+    <!-- 左侧目录 -->
+    <aside class="article-toc">
+    <div class="toc-title">📌 TOUR GUIDE 📌</div>
+        <ul id="toc"></ul>
+    </aside>
+            <div class="article-content">
+            <h2>前言</h2>
+            <p>这次新冠肺炎的爆发对全球来说绝对是一次灾难。在出发前我们也有考虑各种问题，但实际面对的时候却有很多时候感觉到无助感，所以在这里记录一下这次绝对难忘的经历。</p>
+            <p>如果想直接看内容攻略可以直接点右边目录跳到你想看的位置</p>
+            <h2>意外</h2>
+            <p>机票：原定旅行时间为13天，由于旅行中途WHO宣布此次新冠肺炎为紧急事件，所以全球基本的航空公司取消飞至中国大陆的所有航班，卡塔尔航空也出声明停飞所有飞至中国大陆航班，我们一直与航空公司客服联系希望回程机票改至目的地为香港（从其他渠道知道卡塔尔还能飞香港），刚开始航空公司一直说已经停飞所有中国大陆航班，包括香港，北京，上海等，所以帮不了我们改签，但可以帮我们退票，但是从微博上留言知道只能退税费，可能就只能是几百块，但是重买机票却要上好几千，有些还要中转3个机场，用时30几个小时。所以我们一直和客服力争，最终大半个小时后，才同意我们改签至香港，最后一定一定要等到对方发确认邮件给你才挂电话！客服很容易漏发或错发东西，如果挂电话不一定还能再打通，事实又再次证明，死不要脸很重要！</p>
+            <p>还有，也不知道是不是对于这次旅程还不够深刻，所以在米兰至多哈的飞机上面，第一次感受到飞机带来的恐惧感。机上还有一半是中东的妇女，在强烈的颠簸发生时，中东妇女们大喊大叫，并像电影情节一般，大声祈祷，环境塑造恐惧感，我们四人闭眼抓紧对方的手，根本不敢看。虽然颠簸时间不算长，但却对我们之后遇到的气流感觉更恐惧。</p>
+            <p>酒店：在出发前已经将所有酒店预定好，并酒店大部分已扣费。但在出发前一天，首先被booking取消了米兰第一晚酒店，没征兆，没提前询问！我提前2个月预定的酒店就是为了能便宜实惠，突然取消，没有赔付违约金给我，只找了一间代替的给我，价格还要更贵，位置还要更偏。但由于我之后行程都已经确定，没有办法只能按照booking选择的继续预定。</p>
+            <p>在米兰第一晚收到，第二晚要入住的巴里酒店取消预订信息。又是临时取消。在WHO宣布肺炎为紧急事件时，booking有发邮件说明，预定的酒店可以免费取消。所以我们在确定改签航班</p>
+            <p>日期后，立刻在booking的app上取消了波西塔诺，罗马和米兰的酒店，收到的回复是因为波西塔诺不到48小时取消，所以不能免费取消，罗马和米兰是可以免费取消，所以当下，我立刻取消了罗马和米兰的酒店。但是！我回国后查账单，还是没有退款，我立刻和booking沟通，客服竟然和我说没有通知他们取消，所以不能免费取消！！这是很没有道理的，因为波西塔诺我就是一直找客服联系取消，电话一直没人接，邮件也不回，但是隔天就是要入住了，所以我们也只能顺应着先去波西塔诺。如果像客服说的这样要打电话和发邮件，到我入住罗马和米兰的时候也取消不了！而且最重要，app里面取消，是明写着罗马和米兰是免费取消的！回来打客服就改口说要和他们联系才是能免费取消，这不是很好笑吗！通过这次，对booking的处理真的很失望，用booking已经超过9年了，出了免费取消声明，却实际没有取消的可能性，这样只是赚国难财而已！</p>
+            <p>行程：在还没有改签机票的时候，人是迷茫的，每天都只能看着国内疫情，看着航空公司，使领馆的信息，等待着被安排，但是每天看到疫情越来越严重，航班取消，但使领馆只出了一份报备表让在海外同胞填，而且内容还没有你订不了回国的航班选择。这样提醒一下大家，如真的有突发事情，还是要靠自己，多几个渠道去争取，不然只能无了期等待了。</p>
+            <p>由于提前3天回国，后续的罗马行程只能取消。车票提前买的low price，现场问过工作人员，不能退票，改签日期要补差价，实际上的差价大过我们重新买的车票。。。所以我们只能是重新买贵价票了。购物：这个旅行购买口罩的意愿远超过奢侈品，基本我们每个城市每个药房，每个看似有口罩买的地方都会问有没有口罩卖，收到的回复均是finish。我们在巴里一间生活用品店找到仅余的几盒口罩，其余地方有口罩卖的，均为1欧一只普通口罩。这就知道国外的口罩也十分紧缺。对于其他消毒水，免洗手液也同样紧缺，只能在小城市才能找到。</p>
+            <p>下面放一下我们快闪的短视频来缓和一下气氛：</p>
+            <img src="../images/italy-south/prep-01.jpg" alt="意大利南部" width="800">
+            <h2>好好好～正式的来了～GOGOGO～～～</h2>
+            <p>这次行程只选择一个国家，是因为想细致地将意大利南部慢慢逛完。而且因为之前去欧洲都太冷了，所以选择一个较为温暖的南部。事实十几天都根本不够时间走完南意，所以取消了西西里岛的行程，因为刚好某个综艺在西西里播，怕人潮太多，所以毅然放弃了。</p>
+            <p>这里大概标注一下整个行程的路线安排，以供大家参考。</p>
+            <img src="../images/italy-south/prep-02.jpg" alt="意大利南部" width="800">
+            <h2>前期准备</h2>
+            <h3>机票：</h3>
+            <p>确认好旅行地点，就开始看机票。因为对于卡塔尔航空还是比较相信的，所以还是选择回卡塔尔。目的地是南部，当然是广州飞罗马时间上是最好的，但价格整体比米兰来回也贵快两千多，如果买开口票价格比米兰直接来回要贵一千多块，加上我们并没有去过米兰，所以最后确定就是广州来回米兰，买票的时候刚好有优惠，所以最后提前5个月购票，价格：4113元/人。</p>
+            <p>而米兰-巴里这个机票，我首先在意大利航空买的机票，因为担心其他代理商买票不能出票，即使官网贵点还是希望安全一点，但是订单提交上去却一直不能付款，试过好几次也不行。发邮件问过航空公司也没回复，最后还是在代理商TRIPAIR买了，幸好是能用的，不然只能现场买了。注意，意大利航空的内陆机是在米兰的LIN机场起飞的，和MXP机场不是同一个方向，大家要注意。最后机票价格288元/人，用时1:30小时。</p>
+            <h3>酒店：</h3>
+            <p>酒店名称我就不列出来的，如果需要酒店名称可以私信我，价格大约也是三百块人均以内。这里主要说明一下发生的细节问题。</p>
+            <p>基本这次住的酒店都是民宿类型，就是没有接待厅，你需要提前与房东沟通到达时间，房东才会过来给你钥匙。或者你可以开WhatsApp加房东，随时沟通。</p>
+            <p>1.米兰第一晚酒店，因为更改的酒店位置比预想中的远，所以与房东沟通到达时间改了2次，最后我们到达后，房东竟然和我们说要加钱22欧，因为我们延期到达。其实这有点过分了，因为过程中，我这边到达不了都会提早和房东说明，但房东却还是要加收我们的延误费用，最后我们还是力争减少了10欧。2.临时更换的巴里酒店，真的大得夸张，价格，位置也可以，值得推荐。</p>
+            <p>3.严重推荐，马泰拉酒店！虽然古城的路实在太难走，但是房东超级好人！到达后主动联系房东，房东会开车过来接你到酒店，而且房子超级温馨，走的时候也是会送你到你想去的地方，超级赞赞赞！注意，这家要现金支付喔～</p>
+            <p>4.波西塔诺的房东其实人很好，因为我们改签航班，原定住3晚，我们求房东他也愿意改到1晚，而且位置超级好，就在巴士站旁边，有个超级好的阳台！</p>
+            <h3>签证：</h3>
+            <p>第一次去意大利是在TB上找旅行社签的要一千多，这次是自己签的，同样是3天出签，价格只要546元/人，如果不嫌麻烦自己签划算很多！具体资料可以参考这个网址： ******</p>
+            <p>但要注意的是，意大利签证的一些资料与我之前签的有些不一样，我就写一下不同的地方，其他参考网上就行。</p>
+            <p>1.之前酒店单和行程只要注明同行的几个人，一份就可以了，但是！意大利不行！一定要每人一份酒店和行程单！记得提前准备好，不然到时候要现场打印，很狼狈。</p>
+            <p>2.照片记得不要和之前的签证的一样！头部也不要太小，不然也只有现场重新拍照！</p>
+            <p>3.所有申根国及发达国家的的签证页都要复印！资料显示只有申根国需要复印，但事实是所有发达国家都需要复印。</p>
+            <h3>交通：</h3>
+            <p>由于我们去南部都是坐私铁，所以时间很难定，我们就没提前买票。只买了那不勒斯-罗马，和罗马-米兰这两程的车票，可惜由于疫情，这两趟都没坐，浪费了。这里说明一下，如果确定时间还是要提前定好，因为提前价格比现场买真的便宜太多太多了。。。</p>
+            <p>我们是买italo的票，整体价格比意铁便宜点。</p>
+            <p>那不勒斯-罗马：（italo）39.6欧/4人（77元/人）</p>
+            <p>罗马-米兰：（italo）179.6欧/4人（349元/人）</p>
+            <p>现场买：</p>
+            <p>巴里-蘑菇村：4.3欧/人（来回同价，火车5欧一程）</p>
+            <p>巴里-马泰拉：5欧/人</p>
+            <p>马泰拉-那不勒斯：15欧/人</p>
+            <p>那不勒斯-索伦多：4欧/人</p>
+            <p>索伦多-波西塔诺：2欧/人</p>
+            <p>那不勒斯-米兰：96.9欧/人（italo，因为改签航班，所以重新买票）</p>
+            <h3>门票：</h3>
+            <p>我们只买了米兰大教堂的门票，官网可以多种选择给你选，如果性价比当然是自己买票划算，不过第一次官网买票是需要有一个快递费，那个快递费其实只是发邮件给你，但是你之后再买就不需要这个快递费了，如果有需要我也可以帮忙大家买票，这样就可以省了几欧的费用，米兰大教堂是一定要登顶才值得去的，上面太漂亮了，拍人拍景一流。另外补充就是，由于我们航班改签，原买的日期在我们回程之后的，但我们也尝试过用原来的票入教堂，是能行的，就是会在登顶的时候会被查出，但是工作人员还是很好的，让我们登顶。当然如果没什么特殊情况还是按照原定时间比较安全点。我们选择买全票电梯上顶：76.5欧/4人（148.3元/人）</p>
+            <h3>其他：</h3>
+            <p>15天保险（双11买）：96元/人；WIFI（双11买）：280元/10天/4人；换钱（主要是南部有些酒店是需要现金支付的，所以按需提前备好）</p>
+            <p>前面文字有点多，后面来图了！</p>
+            <p>从来没有试过在春节假期的广州白云机场竟然会这么少人，疫情下的广州稍微带点阴霾，我们就在这种气氛下出发那时候还没有病例的意大利。</p>
+            <p>MXP机场离市中心一个多小时，机场就有大巴和铁路可以买票，我们选择了大巴，10欧/人。到达米兰已经是下午，简单去超市买点吃的就睡了。</p>
+            <img src="../images/italy-south/prep-03.jpg" alt="意大利南部" width="800">
+            <p>广州白云机场</p>
+            <img src="../images/italy-south/prep-04.jpg" alt="意大利南部" width="800">
+            <p>米兰其中一间巴士公司到米兰火车站的票</p>
+            <img src="../images/italy-south/prep-05.jpg" alt="意大利南部" width="800">
+            <h2>第一站：南部有古城，滨海的城市-巴里Bari</h2>
+            <p>从米兰搭飞机一个半小时就到的城市，温度也没米兰那么低，而且天气超级好！有古迹可以逛，有超长海岸线，有超级新鲜的海鲜吃，这就是南部一个很重要的城市---巴里。</p>
+            <img src="../images/italy-south/bari-01.jpg" alt="意大利南部" width="800">
+            <p>米兰 LIN机场算小的，人不多。意大利航空算本地内陆机比较好的航空了</p>
+            <img src="../images/italy-south/bari-02.jpg" alt="意大利南部" width="800">
+            <p>从巴里机场到市区只要20分钟铁路，很方便，而且酒店就在火车站附近</p>
+            <img src="../images/italy-south/bari-03.jpg" alt="意大利南部" width="800">
+            <p>巴里古城边的海边，超级舒服安静的一个城市</p>
+            <img src="../images/italy-south/bari-04.jpg" alt="意大利南部" width="800">
+            <p>就在海岸边，随便一看以为这么原生态，有这么多的青口。但其实都是开壳了的，真的是把自然的东西还回自然。注意真的除了壳是没有其他垃圾的。我们在海鲜店也买了青口吃，真的也超级新鲜的，带股咸水味</p>
+            <img src="../images/italy-south/bari-05.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/bari-06.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/bari-07.jpg" alt="意大利南部" width="800">
+            <p>不能错过的Gelato，两球只要2.5欧，超大一个！</p>
+            <p>贴士：附上自己画的巴里各售票点及上下车位置，及网上找的两张时刻表。有了这些可以提早点买票，减少等待时间。</p>
+            <img src="../images/italy-south/bari-08.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/bari-09.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/bari-10.jpg" alt="意大利南部" width="800">
+            <p>由于计划在巴里第二天要出发去蘑菇村，但又十分想吃到巴里的海鲜，虽然海鲜市场大概10点多渔民才回来，但我们还是决定尝试一下，9点左右到市场，可惜渔船基本都没回来，只有一两家回来，基本问了一下价格，不算太贵，但也不便宜，每家渔船基本都是只有一两桶成果，我们以15欧买了1kg的新鲜八爪鱼回去晚上加工。确实新鲜的咸水味道很足，而且分量很足，如果有时间还是推荐大家寻一下宝。有一些还是没见过的呢，还有就是当地人都会推荐去“PESCIERA”这家餐厅，不止一个当地人推荐了，但是我们因为时间关系没有机会吃到，大家可以去试一下，应该也不错。</p>
+            <img src="../images/italy-south/bari-11.jpg" alt="意大利南部" width="800">
+            <p>卖海鲜码头</p>
+            <img src="../images/italy-south/bari-12.jpg" alt="意大利南部" width="800">
+            <p>渔民卖海鲜</p>
+            <img src="../images/italy-south/bari-13.jpg" alt="意大利南部" width="800">
+            <h2>第二站：超童话的蘑菇村--Alberobello</h2>
+            <p>买好票要去到等车位置等待，如果你坐铁路去那就在火车站等就可以，如果是大巴的话要记得看我上面写的地址等喔。车程大约1个半小时。下车位置就是到时候走的上车位置。最好就是来的时候买好走的那程车票，这样不浪费时间。按照google map的地图拍照点走就行。当然呢，蘑菇村一定要选择一个蓝天的时候去是最漂亮，不然拍出来很灰！</p>
+            <p>网上简介：这座村庄被橄榄树包围着，房屋都很古老，最古老的可以追溯到18世纪。1996年联合国教科文组织将其列入世界文化遗产名录并给予“ 意大利普利亚区南部发现的圆顶石屋，是一种石灰石住所，是史前建筑技术中无灰泥建筑技术的典型代表”的评价。房子之所以采用这种独特的屋顶设计，据说还是为了躲避政府征收税收。这种屋顶的设计是比较容易拆掉的，如果有人来征收税款的话，大家就可以把屋顶拆掉，做出无人居住的假象。而现在生活已经稳定，这里的人们却依旧保持了这样子的建筑风格。这些石屋也非常的适合居住，它具有冬暖夏凉的特点。</p>
+            <img src="../images/italy-south/alberobello-01.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-02.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-03.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-04.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-05.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-06.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-07.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-08.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-09.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-10.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-11.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-12.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-13.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/alberobello-14.jpg" alt="意大利南部" width="800">
+            <h2>第三站：历史浓厚的石头城-马泰拉（Matera)</h2>
+            <p>马泰拉（Matera）地区是地中海一带最大也是最完整的穴居区域，是世界最古老的人类居住地之一。基本来意大利南部都是冲着这个小城市来的，孤独星球曾把它评为「世界上的失落文明城市」。虽然这个小镇太多梯级，太多山路要爬，但真的超级推荐，推荐一定要慢慢逛，慢慢享受这个简单的历史小镇。</p>
+            <p>网上搜的简介：被选为2019年“ 欧洲文化之都”的两座古城—— 意大利的马泰拉和保加利亚的普罗夫迪夫，可以说是今年当之无愧的文化旅游热点。尤其是马泰拉，大概已有7000年左右的历史沉淀，这个背靠陡峭峡谷，基于旧石器时代人类留下的穴居遗址逐步发展起来的洞窟城市，一面释放着对于旅行者而言颇为致命的古旧魅力，一面借着一场有摧枯拉朽之势的艺术复兴运动，带来了不同于世界上其他任何地方，似乎也不受任何规则束缚的例外风景。</p>
+            <img src="../images/italy-south/matera-01.jpg" alt="意大利南部" width="800">
+            <p>在马泰拉体验岩洞的住宿体验，被认为是时下欧洲最具异国情调的旅行体验之一，所以我们当然也不会错过。</p>
+            <img src="../images/italy-south/matera-02.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-03.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-04.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-05.jpg" alt="意大利南部" width="800">
+            <p>2019年夏天开始，在马泰拉可以看到以城市为展厅的达利展。以下就是寻找达利的踪迹</p>
+            <img src="../images/italy-south/matera-06.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-07.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-08.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-09.jpg" alt="意大利南部" width="800">
+            <p>清晨的悬崖边，也是整座马泰拉古城的城边</p>
+            <p>还有，来马泰拉一定要看日出！光线将整个古城照得金黄金黄的！</p>
+            <img src="../images/italy-south/matera-10.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-11.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-12.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-13.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-14.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-15.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-16.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-17.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-18.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-19.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-20.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-21.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-22.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-23.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-24.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-25.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/matera-26.jpg" alt="意大利南部" width="800">
+            <p>晚上的石头城也很美</p>
+            <img src="../images/italy-south/matera-27.jpg" alt="意大利南部" width="800">
+            <p>打算提前一晚去火车站买马泰拉去那不勒斯的车票，但发现现场只有代理商可以买到车票，不过也没办法了，手续费是每张票收取2欧，但是买明天的车票竟然贵2倍！网上提前搜只需要38.9欧/人，现在竟然要68欧！所以我们立刻改了坐大巴去那不勒斯，时间和火车差不多，而且不用转车，价格只要15欧/人，但是大巴车站离马泰拉古城有半个小时路程，幸好我们有个十分好的房东，房东无怨言的载我们去Mario 车站。我的建议是如果没有人载的话，还是要提前买好车票，这样可以省去不少钱，而且不用拖太远的行李走古城里的石头路。</p>
+            <img src="../images/italy-south/matera-28.jpg" alt="意大利南部" width="800">
+            <h2>第四站：只有一面之缘的城市--拿波里Napoli</h2>
+            <p>在拿波里是心情最复杂的时候，因为航空公司取消了飞回国的航班，所以一天都没有任何心情去玩耍。本来还打算去Toledo地铁站看看，但途中一直找方法解决回国问题，所以也只能回酒店。基本拿波里给我的感觉就是比较脏，和很多黑人，也有可能我在火车站附近，所以感受不了那种度假的感觉。真的只有在火车站的一面之缘，可惜了。</p>
+            <p>附上自己画的拿波里一带交通图。</p>
+            <img src="../images/italy-south/napoli-01.jpg" alt="意大利南部" width="800">
+            <h2>第五站：小众的网红度假地-波西塔诺</h2>
+            <p>由于退不了波西塔诺的酒店，所以还是先出发直接面对面与房东沟通取消的事。去波西塔诺路程稍微复杂点，首先要在拿波里的Garibaldl站买去索伦托 Sorrento的火车票（17欧/人），大概一个小时多一点，虽然火车虽旧，但风景却真的挺美的，开往索伦托的方向，左边有被誉为“ 欧洲最危险的火山”的苏维威火山，和意大利目前保存最为完整的古罗马城市遗址的庞贝古城，右边是海边，还有超级多的柠檬树和橘子树。而且火车车速飞快，还能感受到坐云霄飞车的感觉。。。</p>
+            <img src="../images/italy-south/positano-01.jpg" alt="意大利南部" width="800">
+            <p>到达索伦托火车站，在对面就有大巴总站到阿玛菲Amalfi了，波西塔诺在其中的站点上，所以看到到Amalfi上车就对了。但是！在索伦托买去波西塔诺的车票需要4.5欧/人，但是回程波西塔诺到索伦托之遥2欧/人，这绝对是坑外国人的！在去程我没注意到车票清楚写明2欧，就给检票的撕掉了，不然一定能追回来！大家要注意！回程只要在Tabacchi买票就行了。</p>
+            <img src="../images/italy-south/positano-02.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-03.jpg" alt="意大利南部" width="800">
+            <p>还有很重要的一点！虽然波西塔诺和阿玛菲是出了名的柠檬树之家，但是！真不要在里面买柠檬酒，肥皂，糖那些，价格比在索伦托买贵很多！如果是度假几天不怎么逛的话，我觉得住在这两个地方都是可以的，但是如果是时间上比较紧张，或者喜欢到处逛的，真的不建议住在村里，因为那些山每次爬每次都要怀疑人生！当然有本地bus，也就是1欧多点，但是却感受不了整个村的生活感。所以我建议的是，住在索伦托，一天将波西塔诺和阿玛菲逛完，最重要一点是索伦托有码头直接能去Carip岛！这样省时省钱，而且索伦托都超级好逛的。</p>
+            <p>最可惜就是这次行程，没能去卡普岛Carip，因为我们航班问题，只能住一晚波西塔诺就要改回米兰了。我放一下我之前找的波西塔诺去卡普岛的一些价格。波西塔诺有直接去卡普岛一天游，85欧/人。我自己网上搜就是自己在码头找船，要37欧/人的快艇费，到卡普岛。如果你去蓝洞那就要另外4欧的入洞票+另外换乘的小船票9欧/人，还要1欧的消费。虽然看蓝洞的过程只要10分钟，不过来都来了，有机会还是看一下比较好。卡普岛除了蓝洞出名，就是Carthusia的香薰店了，有合适也可以去看一下。还有可以去Ana capri看一下制高点。</p>
+            <p>另外就是阿玛菲海岸，这个点也是我们没有去到的，虽然离波西塔诺不远，但还是时间问题，错过了。</p>
+            <img src="../images/italy-south/positano-04.jpg" alt="意大利南部" width="800">
+            <p>酒店阳台拍的，加杯柠檬酒一流</p>
+            <img src="../images/italy-south/positano-05.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-06.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-07.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-08.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-09.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-10.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-11.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-12.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/positano-13.jpg" alt="意大利南部" width="800">
+            <p>这是我们当晚买的柠檬酒，入口还挺好的，但酒精浓度可是有30度的</p>
+            <p>在波西塔诺很多卖柠檬酒的地方，如果当晚喝当然可以在里面买，如果作为手信我推荐在索伦托买。</p>
+            <h2>第六站：快节奏的现代城市-米兰Milano</h2>
+            <p>拿波里去米兰实在太远了，接近5小时。基本一天就浪费了。如果各位有时间还是推荐现在罗马玩一，两天再出发米兰，减少1个小时的车程。</p>
+            <p>对于我一个做室内设计的人来说，米兰确实不应该陌生。有太多意大利家具家居品牌了。来到米兰就觉得自己在工作。</p>
+            <p>但是如果第一次来米兰真的必须在米兰大教堂登顶，因为楼上的建筑群真的很好看！登顶门票17欧，也不贵，推荐各位参考各大网红拍摄点拍照留念。</p>
+            <img src="../images/italy-south/milano-01.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-02.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-03.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-04.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-05.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-06.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-07.jpg" alt="意大利南部" width="800">
+            <p>布雷拉美术馆（Pinacoteca di Brera）是米兰也是意大利最为重要的意大利绘画收藏机构之一</p>
+            <img src="../images/italy-south/milano-08.jpg" alt="意大利南部" width="800">
+            <p>来到米兰终于有店可以吃牛排了，上面是自己动手烤的，价格稍贵66欧double扒，下面划算26欧。</p>
+            <img src="../images/italy-south/milano-09.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-10.jpg" alt="意大利南部" width="800">
+            <img src="../images/italy-south/milano-11.jpg" alt="意大利南部" width="800">
+            <p>在米兰吃的GELATO都是大牌，性价比不够巴里的好，但味道也不错。</p>
+            <img src="../images/italy-south/milano-12.jpg" alt="意大利南部" width="800">
+            <p>大城市来说，我个人喜欢罗马多过米兰，米兰就是挺现代的一个城市，有很多各式各样的品牌店可以逛；罗马就带点历史感。</p>
+            <h2>第七站：记下不能直接回广州的-香港机场</h2>
+            <p>到达香港机场已经是晚上9点半，国内朋友发消息说香港机场有旅客被停留了一天，所以我们担心过关有问题，所以没有提前预定包车回广州，但我们提前也与包车公司联系，价格也谈好一千七的七人车到广州。但到达香港，包车公司那边竟然无理由不接我们的单！</p>
+            <p>在这个关键时候，实在没有其他办法了，只能立刻跑去内地交通柜台做大巴回，但竟然所有大巴只能去到深圳湾！并且要港币150元！正常来说，香港机场到广州只要港币185元。但是没有办法下，我们只能接受，到达深圳湾直接叫滴滴，我们四人分两架车，到家也要六百多元。</p>
+            <p>不过，在现在疫情那么紧张的情况下出行，自己是有做好波折重重的准备的。只要能大家平安出行，平安到达家里就足够了。</p>
+            <p>这篇字数多过图片的记录，就当作出游8年以来的一个小小纪念。回到广州，正在自我隔离。希望大家平安健康，国家能顺利度过这个波折，正式迎来美好的2020年。</p>
+            <p>以上,谢谢！</p>
+
+            <!-- Share -->
+            <div style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">分享这个故事</p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+ <!-- Comments Section -->
+    <section class="article-body comments-section">
+        <h2 class="comments-title">
+            评论
+            <span class="comment-count" id="comment-count">0</span>
+        </h2>
+
+        <!-- Comment Form -->
+        <div class="comment-form-wrapper">
+            <h3 class="comment-form-title">发表评论</h3>
+            <form id="comment-form">
+                <div class="comment-form-row">
+                    <div class="comment-form-group">
+                        <label for="comment-name">姓名 *</label>
+                        <input type="text" id="comment-name" name="name" required placeholder="请输入你的姓名">
+                    </div>
+                    <div class="comment-form-group">
+                        <label for="comment-email">邮箱 *</label>
+                        <input type="email" id="comment-email" name="email" required placeholder="请输入你的邮箱">
+                    </div>
+                </div>
+                <div class="comment-form-group">
+                    <label for="comment-content">评论内容 *</label>
+                    <textarea id="comment-content" name="content" required placeholder="分享你的想法和建议..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit-comment">发表评论</button>
+            </form>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="comments-list">
+            <div class="comments-empty">
+                <div class="comments-empty-icon">💬</div>
+                <p>暂无评论，成为第一个评论者吧！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 rOamlOOm 漫游BLOG. 保留所有权利。</p>
+        </div>
+    </footer>
+
+            <!-- 手机端浮窗目录按钮 -->
+    <button class="mobile-toc-btn" id="mobile-toc-btn">
+        📖 目录
+    </button>
+
+    <!-- 手机端浮窗目录面板 -->
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+        <div class="mobile-toc-header">
+            <span>📌 目录</span>
+            <button id="close-toc-panel">✕</button>
+        </div>
+        <ul id="mobile-toc-list"></ul>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+<script>
+// 第一步：为所有 h2 添加 id
+const headings = document.querySelectorAll('.article-content h2');
+headings.forEach((h2, index) => {
+    if (!h2.id) {
+        h2.id = 'section-' + index;
+    }
+});
+
+// 第二步：生成电脑端目录
+const toc = document.getElementById('toc');
+if (toc) {
+    const h2s = document.querySelectorAll('.article-content h2');
+    h2s.forEach(h2 => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = h2.textContent;
+        a.href = '#' + h2.id;
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+}
+
+// 第三步：手机端浮窗目录功能
+(function() {
+    // 生成手机端目录列表
+    const mobileTocList = document.getElementById('mobile-toc-list');
+    if (mobileTocList) {
+        const h2s = document.querySelectorAll('.article-content h2');
+        h2s.forEach(h2 => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.textContent = h2.textContent;
+            a.href = '#' + h2.id;
+            li.appendChild(a);
+            mobileTocList.appendChild(li);
+        });
+    }
+    
+    // 打开/关闭浮窗目录
+    const tocBtn = document.getElementById('mobile-toc-btn');
+    const tocPanel = document.getElementById('mobile-toc-panel');
+    const closeBtn = document.getElementById('close-toc-panel');
+    
+    if (tocBtn && tocPanel) {
+        tocBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tocPanel.classList.toggle('show');
+            console.log('按钮被点击了');  // 调试用
+        });
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                tocPanel.classList.remove('show');
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (tocPanel && tocBtn) {
+                if (!tocPanel.contains(e.target) && !tocBtn.contains(e.target)) {
+                    tocPanel.classList.remove('show');
+                }
+            }
+        });
+    } else {
+        console.log('未找到按钮或面板元素');
+    }
+})();
+</script>
+    
+</body>
+</html>
