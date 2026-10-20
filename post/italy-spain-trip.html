@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <style>
+    /* ===== 网页端导航 (正常大小) ===== */
+    @media (min-width: 769px) {
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', 'Yuanti SC', cursive, sans-serif;
+            font-size: 1.3rem;  /* 网页端正常大小 */
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.2s ease;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent-main);
+            background: rgba(163, 177, 138, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Logo 和头像网页端正常大小 */
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .nav-btn {
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* ===== 手机端导航 (紧凑版) ===== */
+    @media (max-width: 768px) {
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        
+        /* Logo 和头像缩小 */
+        .logo img {
+            height: 32px !important;
+        }
+        
+        .nav-avatar {
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        /* 按钮组 */
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            order: 2;
+        }
+        
+        .nav-btn {
+            font-size: 1.1rem !important;
+            width: 36px !important;
+            height: 36px !important;
+        }
+        
+        /* 导航菜单 - 放在第二行 */
+        .nav-menu {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100%;
+            order: 3;
+            margin-top: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav-menu li {
+            margin: 0 !important;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', cursive, sans-serif;
+            font-size: 1rem !important;
+            padding: 6px 15px !important;
+            white-space: nowrap;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            border-radius: 30px;
+        }
+        
+        .nav-menu a:hover {
+            background: var(--accent-main);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero 调整 */
+        .hero {
+            min-height: 250px !important;
+            margin-top: 10px;
+        }
+        
+        .hero p {
+            font-size: 1rem !important;
+            padding: 12px 20px !important;
+            white-space: normal !important;
+            width: 95% !important;
+        }
+    }
+    
+    /* 更小屏幕 */
+    @media (max-width: 480px) {
+        .nav-menu a {
+            font-size: 0.9rem !important;
+            padding: 5px 12px !important;
+        }
+        /* ===== 手机端隐藏左侧目录 ===== */
+    @media (max-width: 768px) {
+        .article-toc {
+            display: none !important;
+        }
+    }
+        
+        .logo img {
+            height: 28px !important;
+        }
+        
+        .nav-avatar {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        
+        .nav-btn {
+            font-size: 1rem !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        .hero {
+            min-height: 220px !important;
+        }
+        
+        .hero p {
+            font-size: 0.9rem !important;
+            padding: 10px 15px !important;
+        }
+    }
+        /* ===== 电脑端：目录和文章并排 ===== */
+@media (min-width: 769px) {
+    .article-layout {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+    }
+    
+    .article-toc {
+        flex: 0 0 240px;
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+    }
+    
+    .article-content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* ===== 手机端：隐藏原有目录，显示浮窗按钮 ===== */
+/* 让所有文章图片自适应手机屏幕 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* 确保文章容器不溢出 */
+.article-content {
+    overflow-x: hidden;
+}
+
+/* ===== 手机浮窗目录样式 ===== */
+.mobile-toc-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3b18a;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-toc-panel {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 260px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 0.8rem;
+    z-index: 1001;
+    display: none;
+    border: 1px solid #e0e0e0;
+}
+
+.mobile-toc-panel.show {
+    display: block;
+}
+
+.mobile-toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+#close-toc-panel {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #666;
+}
+
+#mobile-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#mobile-toc-list li {
+    margin: 0;
+    padding: 0;
+}
+
+#mobile-toc-list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;  /* 减小行高 */
+    transition: color 0.2s;
+}
+
+#mobile-toc-list a:hover {
+    color: #a3b18a;
+}
+
+/* 手机端显示浮窗按钮 */
+@media (max-width: 768px) {
+    .mobile-toc-btn {
+        display: flex;
+    }
+}
+
+</style>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="旅行文章 - 漫游BLOG">
+    <title>文章 - 漫游BLOG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的 Logo 图片 URL -->
+                    <img src="../images/about/logo.jpg"auto=format&fit=crop&w=100&q=80" alt="rOamlOOm Logo" style="height: 40px;">
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../stories.html">Stories</a></li>
+                    <li><a href="../vlog.html">Vlog</a></li>
+                    <li><a href="../sketch.html">Sketch</a></li>
+                    <li><a href="../about.html">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-btn" id="search-toggle" title="搜索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="nav-btn" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的个人头像 URL -->
+                    <img src="../images/about/me.jpeg"auto=format&fit=crop&w=100&q=80" alt="个人头像" class="nav-avatar" title="个人头像">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Article Hero -->
+<section class="article-hero" style="background-image: url('../images/italy-spain/segovia-11.jpg');">
+        <!-- 【替换说明】修改上方 style 中的 background-image URL 为您的文章英雄图片 -->
+        <div class="container">
+            <div class="article-hero-content">
+                <span class="card-tag">意大利&西班牙--四个女仔一个墟的十八日两国游</span>
+                <h1>游意大利&西班牙</h1>
+                <div class="article-meta">
+                    <span>旅游时间：2015年10月 ｜ 人均费用：20000RMB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="article-body">
+<div class="container-narrow article-layout">
+
+    <!-- 左侧目录 -->
+    <aside class="article-toc">
+    <div class="toc-title">📌 TOUR GUIDE 📌</div>
+        <ul id="toc"></ul>
+    </aside>
+            <div class="article-content">
+            <h2>前言</h2>
+            <p>第一次写游记.</p>
+            <p>为什么这次想写?</p>
+            <p>自私一点说是因为怕自己忘了,另一方面是真的想报答一下提供游记的各位,因为对于自由行是真的是很有用!</p>
+            <p>又为什么以前去的国家不写,偏偏是欧洲才写?</p>
+            <p>因为对于外语不是十分了得的穷游们,欧洲真是比以前去的国家更为麻烦一点.虽然靠肢体语言和画画还是可以顺利完成的,但有些小地方,过了时间就忘了.所以才想分享一下我的经验.</p>
+            <p>好,开始!</p>
+            <h2>出发前准备</h2>
+            <h3>签证</h3>
+            <p>这当然是重点之重.因为从我旅行开始目标就很明确,我就想签美国,以前签美国就听说有多难签,所以我就按部就班(就这个好处可以到处去走走,看看不一样的世界),开始跑遍东南亚 (泰国,越南,马来西亚,柬埔寨),到后来的日本,韩国,今年开始签申根,之后其实就一点都不怕了.我这例子是很正常的流程,所以签过了也就那样,但我想说的是和我一起去的一个朋友例子,今年年初才第一次出国去柬埔寨,九月就和我一齐申根,开始还挺担心她的,但后来证明,只要同伴出国信誉好,其实同伴白本都是轻松过,这是一个很好例子给大家参考.</p>
+            <p>至于签证需要什么材料,去搜搜就是了,最主要还是哪里办?流水账多少?买不买机票?</p>
+            <p>我申根是签意大利 (TB价1024,保险130,递资料三天后就收到寄件了),TB找家信誉良好就可以了,这就不卖广告了.流水账资料写是最少五万,我好像存了七万左右吧(因为之前去日本就试过存十万以上了,所以这次确实简单不少),机票方面,本来去携程办了英文的确认涵了(没付款,只是定了,叫客服发邮件给我的),但后来旅行社说这机票不行,说他们可以帮我们办,又不用钱,就让他们帮我们办了.所以一开始需要做的就是定好旅行时间,其他后来改也没关系,因为保险时间是要按你出发的天数来定的,保险时间又关系到签证签下来的时间段,所以这个比较重要.</p>
+            <h3>机票</h3>
+            <p>没想过广州飞,因为真是太贵了,必定穷游就是香港飞(广州-香港机场,坐车过关185/人).</p>
+            <p>选什么航空公司?</p>
+            <p>因为是先签证后再买机票,大约是出发前两个月吧,所以价格有些都不太理想,国泰,阿联酉,卡塔尔,俄罗斯这是我们最后选出来的.</p>
+            <p>国泰,阿联酉当然好,但机票价在六千RMB左右,总觉得贵了些.</p>
+            <p>俄罗斯是当中最便宜,网上也有说它挺安全,但就是莫名的觉得有点害怕.</p>
+            <p>最后,我们是选择了卡塔尔,是因为ZUJI这网搞优惠,而且去的那程还是国泰的,感觉一次旅程坐两个航空公司也真的不错,而且确实也便宜,4122RMB/人</p>
+            <h3>酒店</h3>
+            <p>哪里预定就不用说了吧,agoda啊,booking啊,我是在booking订的.我们四人,除了塞戈维亚其他都是四人房,人均两百多一晚,全部住市中心,建议都要小厨房是最好的,有一方面需要注意,就是大部分都需要先扣款,就是这先扣款,以至我信用卡被盗用了.在预定酒店后的当晚凌晨,被扣了7欧元,幸好广发立刻将我信用卡冻结了,因为过了几个小时,又盗了一千欧,这真是万幸了,因为被盗用了去银行办理是很复杂,又要拿什么什么证明的,我7欧就小小的当个小经验吧.但大家定酒店的时候确实要注意一下,在意大利时听sales说西班牙盗用信用卡是十分严重的.</p>
+            <h3>预定门票</h3>
+            <p>这也是必须的,我们主要景点都是先预定好的,再去换票进去,真不用等很久.穷游也有景点票买,官网也有.</p>
+            <h3>必须品</h3>
+            <p>wifi(去TB就有了,39/天);转换器;伞;风衣等其他必需品.</p>
+            <h3>具体行程</h3>
+            <h2>第一站：一直处于文艺复兴时期的罗马</h2>
+            <h3>D1:广州------香港机场-------多哈</h3>
+            <p>这天应该不用多说了,要说就是飞机窄,比较难睡.我们四人去程选了四人连位简直窄到哭啊,后来选了前二后二就舒服多了.国泰食物也没想像中好吃,还有就是不用拿行李,直接去闸口等上去罗马的飞机就可以了.</p>
+            <img src="../images/italy-spain/rome-01.jpg" alt="意大利西班牙" width="800">
+            <h3>D2:多哈-----罗马机场-----酒店</h3>
+            <p>渡过了十九个小时的黑夜,终于早上七点到罗马了.在机场等到九点买了48小时的罗马 pass,为什么不买72小时的,对于我们这些暴走族,三天时间确实有点太赶了,事实证明,我们买48小时的也亏了,因为48小时是包两天地铁公交,一个免费景点;72小时就是三天地铁公交,两个免费景点.我们只去了一个景点,做了一趟地铁,三躺公交.但就要28欧/人.72小时的好像36欧吧,忘了.</p>
+            <p>机场到火车站需要到六号门买票等车,其实有几个大巴公司选择,我们选择其中一家,</p>
+            <p>5欧/人,约一个小时.步行去酒店即可.</p>
+            <img src="../images/italy-spain/rome-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-04.jpg" alt="意大利西班牙" width="800">
+            <p>本来计划此次旅行就是慢,故当日都只在酒店附近行逛,酒店附近就有斗兽厂还有个公园,吃了我觉得正常的PIZZA和意粉,但朋友们确觉得最难吃的一顿.忘了多少钱,好像一共40欧吧.</p>
+            <img src="../images/italy-spain/rome-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-08.jpg" alt="意大利西班牙" width="800">
+            <p>D3:由于暴走了一天,并且罗马感觉只有PIZZA和意粉,我们一顿就腻了,晚上去附近超市买了一些打起鞭炉来了,这样全部才10欧,还有明天的早餐了,其中最便宜应该就是依云了,六瓶1升只要人民币7元!</p>
+            <img src="../images/italy-spain/rome-09.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-10.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-11.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-12.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-13.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-14.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-15.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-16.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-17.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-18.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-19.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-20.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-21.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-22.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-23.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-24.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-25.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-26.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-27.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/rome-28.jpg" alt="意大利西班牙" width="800">
+            <h2>第二站：徐志摩下的翡冷翠-佛罗伦萨</h2>
+            <p>由于提前买了去佛罗伦萨的火车票(95rmb/人,为什么这么便宜,是因为我们买到RIFREDI站的,而不是S.M.N站的,所以那么便宜,到时候只要再坐两分钟火车就能到了</p>
+            <p>意铁主要乘车方法大概分两种:</p>
+            <p>1.网上订票,票是打印出来扫描二维码的,所以乘车时是不用先打孔.票据有显示座位日期.</p>
+            <p>2.现场自动贩卖机买票的,由于票为两个月有效期,故当日乘车需要在入口处打孔,不然会罚钱(我们就是在五渔村去比萨忘了打孔,故罚了每人5欧,具体价钱好像是没有标准的,那个验票员说如果不是他验票就要6欧,我想这也是坑外国人的一个机会吧)</p>
+            <p>早上还有时间就去了万神殿走走,还有周围店铺买了些东西,就坐火车去佛罗伦萨了.到的时候已经傍晚,冷冷的,又累,就在酒店附近买了点吃的,这吃的东西往后都见了不少次,但就不知道叫什么,因为老板又不会英文,我们又不会点,指手画脚了一轮,买了好像一共8欧吧,就是像面包的东西夹各种奄过的肉还没有任何的酱,就这样吃了,大部分的肉都很咸,但应该是很地道的食物就是了.吃完就早早睡了.</p>
+            <img src="../images/italy-spain/florence-01.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-04.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-08.jpg" alt="意大利西班牙" width="800">
+            <p>在罗马没有一天是在外面吃早餐的,都是买东西回旅馆自己煮的.佛罗伦萨的第一天终于感受到意大利人的写意.一杯咖啡,一个牛角包,简简单单就满足了.何况还算便宜,一个set就2.2欧.而且牛角包款式多而且很好吃!</p>
+            <p>今天行程主要是乌菲齐美术馆,米开郎其罗广场的日落.不过一天的天气都不好,后来还下雨了.所以第一感受佛罗伦萨名气大于实际.</p>
+            <p>网上预定好门票去3号馆换好票,到1号馆安检进场,二楼开始呈U型各房间为展厅,走道摆放各种雕塑石膏.也有十分多以前常画的石膏像,真的感慨万千.整个美术馆看起来不大,但却十分值得看,因为里面真的太多精品,我们好像也逛了三个多小时吧.出来就去了著名的ZaZa吃牛排,中午人不多,也不用等位,直接点了七成牛排(33欧),一个披撒,一个意粉.那牛排七成都能切的时候流血水,我们没有叫他们重新弄熟,因为确实是挺嫩的,我们隔天又再一次来,点了九成,终于能象国内的六,七成了,感觉还是不错的.</p>
+            <p>下午就是一轮暴走,先去了圣十字教堂,然后是走上去米开郎基罗广场,这一轮暴走简直是疯了,因为中途还有感觉走不完的楼梯,途中的玫瑰园也因为季节不对而是枯萎掉了.终于登上广场,确下起了雨来</p>
+            <p>不过路途上的景色其实很美,就算是下雨,也感受到欧洲街头的风味,如果不是太冷太饿,其实在广场好好喝杯咖啡是不错的选择.</p>
+            <p>晚上经过了旧桥,领主广场,旧桥卖的东西都感觉很假,金器那些,领主广场就是有个旋转木马的广场,天气好,就肯定十分好玩了</p>
+            <img src="../images/italy-spain/florence-09.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-10.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-11.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-12.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-13.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-14.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-15.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-16.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-17.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-18.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/florence-19.jpg" alt="意大利西班牙" width="800">
+            <h2>第三站：全球必去城市—五渔村，比萨斜塔</h2>
+            <p>一大早我们先将大件行李寄存在酒店,因为回来还是住回同一间,就轻松背个小背囊酒就去火车站坐车去LA SPZIA,好像三个小时吧,具体时间忘了.当时纠结是住五渔村里还是LA,因为村内村外价格相差也挺大的,但觉得还是性价比来说还是住在村外好,事实也是,因为火车班次也算挺多,时间掌握比较好,而且酒店就在火车站上面,对来和走的时候都十分方便.而且最重要是,LA买东西比在罗马,佛罗伦萨买东西便宜好多,这真是一个意外收获,本来想随便走走,竟然发现某一些药妆比佛罗伦萨火车站买便宜一半,所以还是挺推荐的.</p>
+            <p>CHEAK IN好酒店,在酒店买了一日五渔村的票12欧,立刻出发大M村,我们的线路其实就是由最远到最近,其中C村由于要爬楼梯就放弃,R村太不方面也放弃,打算明天有时间再过来看,所以决定就是大LASPZIA- -M村-(栈道)-V村- -小M村日落-LA SPZIA,这样计划原本是很好的,但我完全没料到,栈道竟然走了我们三个小时,,,,,去到V村已经六点多了,根本不能再去小M村看日落了,这是一个很后悔的.不过上天还是有眷顾我们,在V村吃晚饭选的餐厅,是我们在意大利吃过最好的,意粉,饺子,还是五渔村特色的白葡萄酒,真的十分惊喜,就在火车站附近,具体忘了名字.好像一共吃了80欧吧.</p>
+            <p>晚上为了填补没去成小M村,就过去看了一趟,晚上的五渔村都很静,有点太安静了,我们喝一瓶白葡萄酒觉得还没到微熏,就在路边店买了也是五渔村产的白葡萄酒在岸边又喝起来了,虽然当时很冷,但那个感觉十分好,没人吵你,而且天气也十分好,看星看月亮,还有海浪声.</p>
+            <img src="../images/italy-spain/cinque-01.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-04.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-08.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-09.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-10.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-11.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-12.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-13.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-14.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-15.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-16.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-17.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-18.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-19.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-20.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-21.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-22.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-23.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-24.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/cinque-25.jpg" alt="意大利西班牙" width="800">
+            <h2>第四站：折扣村-The Mall</h2>
+            <p>今天也是起了个大早,因为要去THE MALL折扣村.</p>
+            <p>坐了最早0830的大巴(来回10欧/人),等的人大部分都是韩国人,他们目标也很清楚,就是PRADA,所以还没开门就排了很长的队伍了,当然我们目标也一样.这攻略就不用说了,自己有兴趣可以搜一下</p>
+            <img src="../images/italy-spain/mall-01.jpg" alt="意大利西班牙" width="800">
+            <h2>第五站：充满高迪的城市-巴塞隆纳</h2>
+            <p>其实今天就是扫盲了,因为今天天气很好,所以再去了百花教堂,拍了照,到处再看看,买买东西,今晚就飞去西班牙的巴塞罗那了.之前没搜到S.M.N去机场,其实就在火车站广场出来,放着个牌的,见人等的就是那地方了,放出时刻表给大家参考,去西班牙其实大部分都是VUELING航空,因为它最方便,一个小时就到了,晚上十一点也很多人逛街,这就和意大利完全不一样,晚上的意大利人都很少,而且西班牙比意大利热许多,CHEAK IN好就睡了.</p>
+            <img src="../images/italy-spain/barcelona-01.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-04.jpg" alt="意大利西班牙" width="800">
+            <p>今天一天都是景点,应该说巴塞罗那值得看得只有那几个景点.网上订好票,现场扫描进去,进去那一刻真是太美了,光线运用十分好,就一个圣家堂就足够来巴塞罗那一次了,我们票还能登顶,但登顶观景不算好,就是能俯瞰巴塞.看了圣家堂约三个小时,去了附近一家吃海鲜的,即点即做,本来以为这家是最好吃的,哪知道后来有间华人做的自助餐,那才叫好,有龙虾,生壕,大虾......款式多到不行,我们在巴塞每天去一次,吃的东西每次不一样.而且有我觉得西班牙最好吃的油条,冷了也没有油味,之后也没能找到(17欧/人,周六日,有龙虾),下午就去古埃尔公园看日落.图上我们拍的位置,应该是这公园拍得最好看的一个景了.</p>
+            <img src="../images/italy-spain/barcelona-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-08.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-09.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-10.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-11.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-12.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-13.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-14.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-15.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-16.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-17.jpg" alt="意大利西班牙" width="800">
+            <p>今天没有景点,就是想到处走走,突然就走到了巴塞罗那大教堂,里面竟然也是我常见拍摄的地方,怎么这欧洲到处都是我的记忆,哈哈.教堂里面精致的地方很多,还有人参拜,我们逛了一圈就走了,逛了逛去吃了自助餐,就走去海边坐坐,今天没有太阳,所以在海边还是挺冷,望着海,想着我想去的突尼斯,今天简单也感受了巴塞.</p>
+            <img src="../images/italy-spain/barcelona-18.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-19.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-20.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-21.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-22.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-23.jpg" alt="意大利西班牙" width="800">
+            <p>景点继续.巴特罗之家和米拉之家.这两个其实都十分出名,可惜天气不好,不然拍照一定很好看,就是天灰了,使天台的任何细节都暗淡下去,这有点可惜了.高迪的东西不能每天看,不然觉得有点腻,隔天看还是觉得这个天才脑子到底在想什么.中午吃了附近的LA RITA最好吃还是红酒鸭腿,其他都是有点咸,甜品有点甜了,晚上随便吃了牛角包,简单解决了.</p>
+            <img src="../images/italy-spain/barcelona-24.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-25.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-26.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-27.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-28.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-29.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-30.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-31.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-32.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-33.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-34.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-35.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-36.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-37.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-38.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-39.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-40.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-41.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/barcelona-42.jpg" alt="意大利西班牙" width="800">
+            <h2>第六站：不可思议的马德里</h2>
+            <p>早上随便逛了逛,下午坐火车去马德里,时间三个小时,到达马德里,觉得这边温度更低了些,CHEAK IN了就去附近看看,看到一家门面一看就好多年的店BOTIN,查了一下原来这家店已经290年了,从来没停业过,还是米其林二星,确定要吃下来,因为我们去的时间很早,门还没有开,决定去附近市场先看看,再过来吃.附近的市场也超多东西吃的,很多不种类的TAPAS(1欧一件),试了几样,决定还是去老店去吃饭,我们排在第一个,听说没有预定过来很少机会能吃到,我们算很幸运的一围了,ORDER了最出名的羊腿,乳猪,沙拉,还有就是我在西班牙每天都喝的SANGRIA,其实就是水果红酒,甜甜的,很好入口.一共90欧.我们四个人吃了两个肉都觉得腻了,看到隔壁外国人一个人吃完一个肉加甜品,咖啡,我简直佩服了.吃完满足的回家阁楼看月光了.</p>
+            <img src="../images/italy-spain/madrid-01.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-04.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/madrid-08.jpg" alt="意大利西班牙" width="800">
+            <h2>第七站：白雪公主的城堡的塞哥维亚</h2>
+            <p>寄放好行李,出发SEGAVIA,为什么去这个城市,是因为这个城市有个很有特色的水渠,而且不会太远,就去MORCEL站买了来回的票,忘了多少钱了,一个半小时到了,天气还是不好,十分冷,不过景色实在太美,很有欧洲小村庄的感觉,而且黄黄的秋叶使这个村庄更美,下车后完全处于兴奋状态,所以一点不觉得冷.中午也是吃了乳猪和羊腿,不过没有BOTIN好吃,下午就到处暴走,随便走走,竟然来到了迪士尼白雪公主的城堡,而且那边的景实在太美了,虽然那天风云莫测,就是这样出来的日落出现特别不一样,真的觉得一切都是假得那么好看,这是整个旅途中出现的最美好的一个意外.</p>
+            <img src="../images/italy-spain/segovia-01.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-02.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-03.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-04.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-05.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-06.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-07.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-08.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-09.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-10.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-11.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-12.jpg" alt="意大利西班牙" width="800">
+            <p>由于昨天实在太冷,所以一早就继续寻找白雪公主城堡的正面,因为景色实在太美,拍照忘了时间,所以最后还是没能看到正面,但发现一个大草坪,加落叶,十分好看!实在又一次感叹,以后结婚照到这里拍一定很好看.昨天买了回程的车票,要到买票口换票才能换到准确乘车时间,所以过去迟了地点就要等45分钟了,回到马德里,立刻进行买买买状态,不过西班牙还是没有什么值得买的感觉,不过意大利品牌在西班牙买也不会贵很多,而且款式有些还是意大利没有,法国品牌西班牙还比意大利便宜,可能是因为距离比较近的原因吧.</p>
+            <img src="../images/italy-spain/segovia-13.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-14.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-15.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-16.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-17.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-18.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-19.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-20.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-21.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-22.jpg" alt="意大利西班牙" width="800">
+            <img src="../images/italy-spain/segovia-23.jpg" alt="意大利西班牙" width="800">
+            <p>最后一天没有去马德里任何的景点,因为还有些东西要买,所以都是到处逛逛.吃完午饭就拿行李去机场了.办退税什么的.因为我们退税退支付宝,竟然20天的工作天还没完全退回来,汇率还很差,但信用卡又不安全,现金又要排队,还真的没有一个方法是十分好的.....</p>
+            <p>回到广州已经是两天后的凌晨,最后才发现自己不见了钥匙包,应该是意大利被偷了,其实在西班牙也已经盯上两次了,最后还是住在朋友家而已....</p>
+
+            <!-- Share -->
+            <div style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">分享这个故事</p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+ <!-- Comments Section -->
+    <section class="article-body comments-section">
+        <h2 class="comments-title">
+            评论
+            <span class="comment-count" id="comment-count">0</span>
+        </h2>
+
+        <!-- Comment Form -->
+        <div class="comment-form-wrapper">
+            <h3 class="comment-form-title">发表评论</h3>
+            <form id="comment-form">
+                <div class="comment-form-row">
+                    <div class="comment-form-group">
+                        <label for="comment-name">姓名 *</label>
+                        <input type="text" id="comment-name" name="name" required placeholder="请输入你的姓名">
+                    </div>
+                    <div class="comment-form-group">
+                        <label for="comment-email">邮箱 *</label>
+                        <input type="email" id="comment-email" name="email" required placeholder="请输入你的邮箱">
+                    </div>
+                </div>
+                <div class="comment-form-group">
+                    <label for="comment-content">评论内容 *</label>
+                    <textarea id="comment-content" name="content" required placeholder="分享你的想法和建议..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit-comment">发表评论</button>
+            </form>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="comments-list">
+            <div class="comments-empty">
+                <div class="comments-empty-icon">💬</div>
+                <p>暂无评论，成为第一个评论者吧！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 rOamlOOm 漫游BLOG. 保留所有权利。</p>
+        </div>
+    </footer>
+
+            <!-- 手机端浮窗目录按钮 -->
+    <button class="mobile-toc-btn" id="mobile-toc-btn">
+        📖 目录
+    </button>
+
+    <!-- 手机端浮窗目录面板 -->
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+        <div class="mobile-toc-header">
+            <span>📌 目录</span>
+            <button id="close-toc-panel">✕</button>
+        </div>
+        <ul id="mobile-toc-list"></ul>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+<script>
+// 第一步：为所有 h2 添加 id
+const headings = document.querySelectorAll('.article-content h2');
+headings.forEach((h2, index) => {
+    if (!h2.id) {
+        h2.id = 'section-' + index;
+    }
+});
+
+// 第二步：生成电脑端目录
+const toc = document.getElementById('toc');
+if (toc) {
+    const h2s = document.querySelectorAll('.article-content h2');
+    h2s.forEach(h2 => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = h2.textContent;
+        a.href = '#' + h2.id;
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+}
+
+// 第三步：手机端浮窗目录功能
+(function() {
+    // 生成手机端目录列表
+    const mobileTocList = document.getElementById('mobile-toc-list');
+    if (mobileTocList) {
+        const h2s = document.querySelectorAll('.article-content h2');
+        h2s.forEach(h2 => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.textContent = h2.textContent;
+            a.href = '#' + h2.id;
+            li.appendChild(a);
+            mobileTocList.appendChild(li);
+        });
+    }
+    
+    // 打开/关闭浮窗目录
+    const tocBtn = document.getElementById('mobile-toc-btn');
+    const tocPanel = document.getElementById('mobile-toc-panel');
+    const closeBtn = document.getElementById('close-toc-panel');
+    
+    if (tocBtn && tocPanel) {
+        tocBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tocPanel.classList.toggle('show');
+            console.log('按钮被点击了');  // 调试用
+        });
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                tocPanel.classList.remove('show');
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (tocPanel && tocBtn) {
+                if (!tocPanel.contains(e.target) && !tocBtn.contains(e.target)) {
+                    tocPanel.classList.remove('show');
+                }
+            }
+        });
+    } else {
+        console.log('未找到按钮或面板元素');
+    }
+})();
+</script>
+    
+</body>
+</html>
