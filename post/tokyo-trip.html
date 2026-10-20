@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    <style>
+    /* ===== 网页端导航 (正常大小) ===== */
+    @media (min-width: 769px) {
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', 'Yuanti SC', cursive, sans-serif;
+            font-size: 1.3rem;  /* 网页端正常大小 */
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            transition: all 0.2s ease;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent-main);
+            background: rgba(163, 177, 138, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Logo 和头像网页端正常大小 */
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+        }
+        
+        .nav-btn {
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+        }
+    }
+    
+    /* ===== 手机端导航 (紧凑版) ===== */
+    @media (max-width: 768px) {
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        
+        /* Logo 和头像缩小 */
+        .logo img {
+            height: 32px !important;
+        }
+        
+        .nav-avatar {
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        /* 按钮组 */
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            order: 2;
+        }
+        
+        .nav-btn {
+            font-size: 1.1rem !important;
+            width: 36px !important;
+            height: 36px !important;
+        }
+        
+        /* 导航菜单 - 放在第二行 */
+        .nav-menu {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100%;
+            order: 3;
+            margin-top: 12px;
+            padding: 5px 0;
+        }
+        
+        .nav-menu li {
+            margin: 0 !important;
+        }
+        
+        .nav-menu a {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', '幼圆', cursive, sans-serif;
+            font-size: 1rem !important;
+            padding: 6px 15px !important;
+            white-space: nowrap;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            border-radius: 30px;
+        }
+        
+        .nav-menu a:hover {
+            background: var(--accent-main);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero 调整 */
+        .hero {
+            min-height: 250px !important;
+            margin-top: 10px;
+        }
+        
+        .hero p {
+            font-size: 1rem !important;
+            padding: 12px 20px !important;
+            white-space: normal !important;
+            width: 95% !important;
+        }
+    }
+    
+    /* 更小屏幕 */
+    @media (max-width: 480px) {
+        .nav-menu a {
+            font-size: 0.9rem !important;
+            padding: 5px 12px !important;
+        }
+        /* ===== 手机端隐藏左侧目录 ===== */
+    @media (max-width: 768px) {
+        .article-toc {
+            display: none !important;
+        }
+    }
+        
+        .logo img {
+            height: 28px !important;
+        }
+        
+        .nav-avatar {
+            width: 28px !important;
+            height: 28px !important;
+        }
+        
+        .nav-btn {
+            font-size: 1rem !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+        
+        .hero {
+            min-height: 220px !important;
+        }
+        
+        .hero p {
+            font-size: 0.9rem !important;
+            padding: 10px 15px !important;
+        }
+    }
+        /* ===== 电脑端：目录和文章并排 ===== */
+@media (min-width: 769px) {
+    .article-layout {
+        display: flex;
+        gap: 3rem;
+        align-items: flex-start;
+    }
+    
+    .article-toc {
+        flex: 0 0 240px;
+        position: sticky;
+        top: 2rem;
+        align-self: start;
+    }
+    
+    .article-content {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+/* ===== 手机端：隐藏原有目录，显示浮窗按钮 ===== */
+/* 让所有文章图片自适应手机屏幕 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* 确保文章容器不溢出 */
+.article-content {
+    overflow-x: hidden;
+}
+
+/* ===== 手机浮窗目录样式 ===== */
+.mobile-toc-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #a3b18a;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-toc-panel {
+    position: fixed;
+    bottom: 80px;
+    left: 20px;
+    width: 260px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 0.8rem;
+    z-index: 1001;
+    display: none;
+    border: 1px solid #e0e0e0;
+}
+
+.mobile-toc-panel.show {
+    display: block;
+}
+
+.mobile-toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+#close-toc-panel {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #666;
+}
+
+#mobile-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#mobile-toc-list li {
+    margin: 0;
+    padding: 0;
+}
+
+#mobile-toc-list a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 0;
+    font-size: 0.8rem;
+    line-height: 1.3;  /* 减小行高 */
+    transition: color 0.2s;
+}
+
+#mobile-toc-list a:hover {
+    color: #a3b18a;
+}
+
+/* 手机端显示浮窗按钮 */
+@media (max-width: 768px) {
+    .mobile-toc-btn {
+        display: flex;
+    }
+}
+
+</style>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="旅行文章 - 漫游BLOG">
+    <title>文章 - 漫游BLOG</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的 Logo 图片 URL -->
+                    <img src="../images/about/logo.jpg"auto=format&fit=crop&w=100&q=80" alt="rOamlOOm Logo" style="height: 40px;">
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../stories.html">Stories</a></li>
+                    <li><a href="../vlog.html">Vlog</a></li>
+                    <li><a href="../sketch.html">Sketch</a></li>
+                    <li><a href="../about.html">About</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="nav-btn" id="search-toggle" title="搜索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="nav-btn" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- 【替换说明】将下方 src 中的图片链接替换为您的个人头像 URL -->
+                    <img src="../images/about/me.jpeg"auto=format&fit=crop&w=100&q=80" alt="个人头像" class="nav-avatar" title="个人头像">
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Article Hero -->
+<section class="article-hero" style="background-image: url('../images/tokyo/hero.jpg');">
+        <!-- 【替换说明】修改上方 style 中的 background-image URL 为您的文章英雄图片 -->
+        <div class="container">
+            <div class="article-hero-content">
+                <span class="card-tag">和朋友的日本东京8日7夜随心游</span>
+                <h1>游东京</h1>
+                <div class="article-meta">
+                    <span>旅游时间：2025年5月 ｜ 人均费用：7500RMB</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="article-body">
+<div class="container-narrow article-layout">
+
+    <!-- 左侧目录 -->
+    <aside class="article-toc">
+    <div class="toc-title">📌 TOUR GUIDE 📌</div>
+        <ul id="toc"></ul>
+    </aside>
+            <div class="article-content">
+            <p>其实第三次去的日本，只是距离上一次已经9年前，而且从来没去过东京，所以一切都那么陌生。</p>
+            <h2>交通：</h2>
+            <p>机票：本来以为飞猪的618全日空比较便宜，日日抢，抢成功了，发现还不如官网买划算。最后1766元/人 广州来回东京。</p>
+            <p>市内交通：苹果手机直接钱包挂西瓜卡，随时随充。我们没有买任何一个24小时卡，交通费大概3800日元（190元）。</p>
+            <p>一早就听说东京交通复杂，用Google map其实熟悉看内容是很方便的，一两次之后基本摸熟。</p>
+            <h2>住宿：</h2>
+            <p>一早plan好住宿地点系上野，因为知道上野消费相对便宜，还交通比较方便。7晚人均235元/晚，房间虽细，而且楼梯4楼，不过不用换住宿搬一次还可以。主要够便宜、方便和干净。</p>
+            <h2>其余费用：</h2>
+            <p>签证费：三年多签，450元</p>
+            <p>上网卡：softbank8日每日2G共41元（很足够）</p>
+            <p>保险：其实签证不需要买，我是出发那天才为保险买的，平安7天89元</p>
+            <p>换现金：银行兑换，我们换了8万日元（有点太多）</p>
+            <p>富士山一日游：Klook363元/人</p>
+            <p>迪士尼sea：美团390元/人</p>
+            <h2>行程：</h2>
+            <h3>DAY 1:</h3>
+            <p>全日空餐食不错，位置也比较宽。虽然还是有点颠簸。我提前预约了海鲜餐和印度餐，其实都不错。</p>
+            <p>在出发当天提前填写好入境QR code，申请好二维码丝滑入境。</p>
+            <p>晚上大概9点到民宿，出发去吃个宵夜。当天因为是周六，所以有些店铺比平日早关门，最后在酒店附近吃了章鱼烧，特别是柚子章鱼烧清爽特别一些。晚上还吃了杯面</p>
+            <img src="../images/tokyo/day1-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day1-07.jpg" alt="东京" width="800">
+            <h3>DAY 2:</h3>
+            <p>今天随便走：</p>
+            <p>Komeda的早餐—浅草寺—Fuglen Coffee—Minster Donnut—秋叶原—阿美横丁</p>
+            <img src="../images/tokyo/day2-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-09.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-10.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-11.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-12.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-13.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-14.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day2-15.jpg" alt="东京" width="800">
+            <h3>DAY 3:</h3>
+            <p>看好天气和富士山能见度的指数。才买团。当日指数有10，但还是云比较多，但也是能看到短短的一刹那的山顶。团领导不错，到网红店帮团友拍照，也细心照顾。也有小礼物送。觉得也挺值的。</p>
+            <p>Lawson网红点-河口湖-午餐自助餐（不含在团费，2990普通自助餐，4990含和牛，和牛奶味牛味都很香）-那个网红T字路口-爬山-忍野八海（那个一口能长寿3秒的水）</p>
+            <img src="../images/tokyo/day3-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-09.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-10.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-11.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day3-12.jpg" alt="东京" width="800">
+            <h3>DAY 4:</h3>
+            <p>东京塔-明治神社-原宿-表参道-涉谷-欧舒丹 cafe-忠犬八公</p>
+            <img src="../images/tokyo/day4-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day4-09.jpg" alt="东京" width="800">
+            <h3>DAY 5:</h3>
+            <p>看xhs知道周二人流比较少，天气预报显示都是阴天。加上门票周二-周四一样价格。但是周四前网红冰雪奇缘才开，但又怕人流第一天开超级多人，所以最后觉得周三避开人流。证明完全对，还想不到一整天天气晴到爆炸。人流也不算多，最多的长发公主排队60分钟，一共玩了10个项目0氪金。</p>
+            <p>之前搜攻略都写得有多复杂，DPA、PP啥的。现在可能开了新乐园，所以不用抢得那么复杂。</p>
+            <p>首先买门票：美团会在入园前一晚才给你二维码，提前扫码到迪士尼app马上，然后一个队长发邀请团友进一个group，这样就能一起抢项目。</p>
+            <p>一开始我们就想好不会抢DPA，因为性价比不高，每个项目1500-2000日元/人不等，所以安排2个人看项目排队时间，两个抢pp，很容易抢了热门印地安纳琼斯13点的，等2小时立刻又能抢到愤怒双神18点的。到约定时间会自然发送二维码，就能免排队。超级爽。项目只能抢2次，但表演能继续抢，我们随便也能抢到。</p>
+            <p>早上我们8点到园，大概9点半进到园内，长发公主说要维修到10点开，我们直接先冲小飞侠。大概40mins，再去小精灵40mins，长发公主60mins，愤怒双神pp，午餐三眼仔麻薯和鸡腿，还有啥地心历险、惊魂古堡都差不多60mins，nimo啊，列车啊，船啊就比较少人，晚上7点半的汇演必不能错过，十分精彩！</p>
+            <p>回民宿附近吃了便宜的居酒屋，完美结束一天</p>
+            <img src="../images/tokyo/day5-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-09.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-10.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-11.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-12.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-13.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-14.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-15.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-16.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-17.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-18.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day5-19.jpg" alt="东京" width="800">
+            <h3>DAY 6:</h3>
+            <p>本来今天计划去轻井泽，但后来想想路费有点太贵，决定改路线去镰仓。</p>
+            <p>我们先去大船站做了单轨吊车-江之岛-镰仓高校-镰仓站-横滨-上野</p>
+            <p>中午在镰仓吃了我期待已久的汤咖喱，不错</p>
+            <p>晚上回阿美横丁吃了性价比一流的定食</p>
+            <img src="../images/tokyo/day6-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-09.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day6-10.jpg" alt="东京" width="800">
+            <h3>DAY 7:</h3>
+            <p>今天一天都在下雨，幸好今天是扫盲购物</p>
+            <p>一早吃了附近昭和风咖啡家，老板人比较冷漠，店内能吸烟感觉对游客不友善。出发多庆屋买手信了。</p>
+            <p>午餐吃了家附近的黑拉面，好咸就去了上野公园走走逛逛，逛累了就星巴克坐坐，晚上再去找家居酒屋吃吃</p>
+            <img src="../images/tokyo/day7-01.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-02.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-03.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-04.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-05.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-06.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-07.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-08.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-09.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-10.jpg" alt="东京" width="800">
+            <img src="../images/tokyo/day7-11.jpg" alt="东京" width="800">
+            <h3>DAY 8:</h3>
+            <p>早上9点多的飞机，我们5点半就出发。回程记得选左边窗位，天气好能看到富士山喔。羽田T2没啥好买，简单吃个雪糕就回程咯</p>
+            <img src="../images/tokyo/day8-01.jpg" alt="东京" width="800">
+
+            <!-- Share -->
+            <div style="text-align: center; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">分享这个故事</p>
+                <div style="display: flex; justify-content: center; gap: 1rem;">
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--accent-main); color: white; border-radius: 50%; text-decoration: none;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </article>
+
+ <!-- Comments Section -->
+    <section class="article-body comments-section">
+        <h2 class="comments-title">
+            评论
+            <span class="comment-count" id="comment-count">0</span>
+        </h2>
+
+        <!-- Comment Form -->
+        <div class="comment-form-wrapper">
+            <h3 class="comment-form-title">发表评论</h3>
+            <form id="comment-form">
+                <div class="comment-form-row">
+                    <div class="comment-form-group">
+                        <label for="comment-name">姓名 *</label>
+                        <input type="text" id="comment-name" name="name" required placeholder="请输入你的姓名">
+                    </div>
+                    <div class="comment-form-group">
+                        <label for="comment-email">邮箱 *</label>
+                        <input type="email" id="comment-email" name="email" required placeholder="请输入你的邮箱">
+                    </div>
+                </div>
+                <div class="comment-form-group">
+                    <label for="comment-content">评论内容 *</label>
+                    <textarea id="comment-content" name="content" required placeholder="分享你的想法和建议..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit-comment">发表评论</button>
+            </form>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="comments-list">
+            <div class="comments-empty">
+                <div class="comments-empty-icon">💬</div>
+                <p>暂无评论，成为第一个评论者吧！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="search-modal">
+        <div class="search-modal-content">
+            <input type="text" class="search-input" id="search-input" placeholder="搜索...">
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 rOamlOOm 漫游BLOG. 保留所有权利。</p>
+        </div>
+    </footer>
+
+            <!-- 手机端浮窗目录按钮 -->
+    <button class="mobile-toc-btn" id="mobile-toc-btn">
+        📖 目录
+    </button>
+
+    <!-- 手机端浮窗目录面板 -->
+    <div class="mobile-toc-panel" id="mobile-toc-panel">
+        <div class="mobile-toc-header">
+            <span>📌 目录</span>
+            <button id="close-toc-panel">✕</button>
+        </div>
+        <ul id="mobile-toc-list"></ul>
+    </div>
+
+    <script src="../js/main.js"></script>
+
+<script>
+// 第一步：为所有 h2 添加 id
+const headings = document.querySelectorAll('.article-content h2');
+headings.forEach((h2, index) => {
+    if (!h2.id) {
+        h2.id = 'section-' + index;
+    }
+});
+
+// 第二步：生成电脑端目录
+const toc = document.getElementById('toc');
+if (toc) {
+    const h2s = document.querySelectorAll('.article-content h2');
+    h2s.forEach(h2 => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.textContent = h2.textContent;
+        a.href = '#' + h2.id;
+        li.appendChild(a);
+        toc.appendChild(li);
+    });
+}
+
+// 第三步：手机端浮窗目录功能
+(function() {
+    // 生成手机端目录列表
+    const mobileTocList = document.getElementById('mobile-toc-list');
+    if (mobileTocList) {
+        const h2s = document.querySelectorAll('.article-content h2');
+        h2s.forEach(h2 => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.textContent = h2.textContent;
+            a.href = '#' + h2.id;
+            li.appendChild(a);
+            mobileTocList.appendChild(li);
+        });
+    }
+    
+    // 打开/关闭浮窗目录
+    const tocBtn = document.getElementById('mobile-toc-btn');
+    const tocPanel = document.getElementById('mobile-toc-panel');
+    const closeBtn = document.getElementById('close-toc-panel');
+    
+    if (tocBtn && tocPanel) {
+        tocBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tocPanel.classList.toggle('show');
+            console.log('按钮被点击了');  // 调试用
+        });
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                tocPanel.classList.remove('show');
+            });
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (tocPanel && tocBtn) {
+                if (!tocPanel.contains(e.target) && !tocBtn.contains(e.target)) {
+                    tocPanel.classList.remove('show');
+                }
+            }
+        });
+    } else {
+        console.log('未找到按钮或面板元素');
+    }
+})();
+</script>
+    
+</body>
+</html>
