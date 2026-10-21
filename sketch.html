@@ -243,7 +243,9 @@
         background: rgba(0, 0, 0, 0.9);
         z-index: 1000;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
     .lightbox.active {
         display: flex;
@@ -251,15 +253,18 @@
     .lightbox-content {
         position: relative;
         max-width: 90%;
-        max-height: 90%;
+        margin: auto;
+        padding: 20px 0;
     }
     .lightbox-image {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+        display: block;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        margin: 0 auto;
     }
     .lightbox-close {
-        position: absolute;
+        position: fixed;
         top: 20px;
         right: 20px;
         font-size: 2rem;
@@ -269,7 +274,7 @@
         border: none;
     }
     .lightbox-nav {
-        position: absolute;
+        position: fixed;
         top: 50%;
         transform: translateY(-50%);
         background: rgba(255, 255, 255, 0.2);
@@ -553,20 +558,25 @@
         function openLightbox(index) {
             currentIndex = index;
             document.getElementById('lightbox').classList.add('active');
+            document.getElementById('lightbox').scrollTop = 0;
+            document.body.style.overflow = 'hidden';
             document.getElementById('lightbox-image').src = images[currentIndex];
         }
 
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         function nextImage() {
             currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('lightbox').scrollTop = 0;
             document.getElementById('lightbox-image').src = images[currentIndex];
         }
 
         function prevImage() {
             currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('lightbox').scrollTop = 0;
             document.getElementById('lightbox-image').src = images[currentIndex];
         }
 
